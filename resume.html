@@ -3,13 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>李赵赫 · 四季履历（二十四节气 · PPT 版）</title>
+<title>李赵赫 · 个人简历（四季节气版）</title>
 <style>
 /* ═══════════════════════════════════════════════════════════
-   李赵赫 · 四季 · 二十四节气 简历（v2 · PPT 式）
+   李赵赫 · 四季 · 二十四节气 简历
    结构：首页(四季之门) → 季节页(6 节气) → 节气详情页(内容+古诗)
    特点：每个节气独立成一页，点击进入，动画丝滑；四季各有装饰元素。
-   编辑方式见「编辑指南」页（投递前可删除）。
    ═══════════════════════════════════════════════════════════ */
 :root{
   --paper:#FAF6EC;
@@ -335,10 +334,6 @@ ul.dots li::before{content:""; position:absolute; left:2px; top:11px; width:7px;
 .mterm .mname{font-size:13.5px; font-weight:600;}
 .mterm .mtitle{font-size:11.5px; color:var(--muted); margin-left:auto;}
 
-/* 编辑指南 */
-.guide-box{max-width:880px; margin:0 auto; background:#FFFBF0; border:1px dashed #D9B65C; border-radius:16px; padding:22px 26px; font-size:13.5px; color:#5F5230;}
-.guide-box h3{font-size:17px; margin-bottom:8px;}
-.guide-box li{margin:6px 0 6px 4px;}
 code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; color:#8A6D3B;}
 
 .footer-note{text-align:center; font-size:12px; color:#B8B2A2; padding:4px 0 18px; letter-spacing:2px;}
@@ -395,7 +390,7 @@ code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; c
     <div class="stamp">四 季 履 历</div>
     <p class="home-sub">青岛农业大学 · 本科在读 · 目标：保研（推免）</p>
     <div class="home-contact">
-      电话 <b>19031017128</b><i>·</i>微信 <b>lzh5186933</b><i>·</i>邮箱 <a href="mailto:19031017128@163.com" style="color:var(--seal); text-decoration:none; font-weight:600;">19031017128@163.com</a><i>·</i>GitHub / LinkedIn <b>【待补】</b>
+      电话 <b>19031017128</b><i>·</i>微信 <b>lzh5186933</b><i>·</i>邮箱 <a href="mailto:19031017128@163.com" style="color:var(--seal); text-decoration:none; font-weight:600;">19031017128@163.com</a>
     </div>
 
     <div class="gates">
@@ -419,7 +414,6 @@ code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; c
 
     <div class="home-links">
       <button class="btn" onclick="go('s-map')">🗺 二十四节气总览</button>
-      <button class="btn ghost" onclick="go('s-guide')">📋 编辑指南</button>
     </div>
     <p class="home-hint">点击四季之门 · 开启履历章节　｜　详情页可用 <kbd>←</kbd> <kbd>→</kbd> 翻页，<kbd>Esc</kbd> 返回</p>
   </div>
@@ -521,38 +515,6 @@ code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; c
 <!-- ══════════════════════ 节气详情页（JS 动态渲染） ══════════════════════ -->
 <section class="slide" id="s-term"></section>
 
-<!-- ══════════════════════ 编辑指南 ══════════════════════ -->
-<section class="slide" id="s-guide">
-  <header class="shead">
-    <button class="btn" onclick="back()">← 返回</button>
-    <div>
-      <h2 style="font-family:var(--kai); letter-spacing:3px;">📋 编辑指南</h2>
-      <p class="s-motto">本页投递前可整页删除（删掉 <code>&lt;section id="s-guide"&gt;</code> 一段即可）</p>
-    </div>
-  </header>
-  <div class="slide-scroll">
-    <div class="guide-box">
-      <h3>✏️ 怎么改内容</h3>
-      <ul>
-        <li>所有 24 个节气板块的内容都在 <b>页面底部 <code>&lt;script&gt;</code></b> 里的 <code>TERMS</code> 数组中，找到对应节气名（如 <code>term:'小暑'</code>），修改它的 <code>blocks</code> 内容即可。</li>
-        <li>每个板块字段含义：<code>title</code>＝板块标题，<code>quest</code>＝主线/支线任务，<code>status</code>＝状态，<code>poem</code>＝配套古诗，<code>blocks</code>＝正文内容（可用 <code>kv</code> 标签 / <code>bullets</code> 要点 / <code>certs</code> 证书图 / <code>stages</code> 阶段 / <code>timeline</code> 时间线）。</li>
-        <li>所有 <code>【待补】</code> 替换为你的真实信息；多余板块可整段删除。</li>
-        <li>「白露 · 证书」板块：在 TERMS 中找到 <code>bai-lu</code>，给每个证书项填 <code>img:"证书图片/四级.jpg"</code>（图片放到 HTML 同目录或子文件夹），即可显示证书图；留空则显示占位框。图片不裁剪，自动等比填充。</li>
-        <li>需要新板块：在 <code>TERMS</code> 数组中复制一个对象，改节气名与内容（24 节气已全部用到，也可自定名称）。</li>
-      </ul>
-      <h3>🎨 换季节配色 / 装饰</h3>
-      <ul>
-        <li>四季主色在 <code>&lt;style&gt;</code> 顶部 <code>:root</code> 里（<code>--spring / --summer / --autumn / --winter</code>），改色值即可全局换肤。</li>
-        <li>飘落装饰（花瓣/水珠/落叶/雪花）由页面自动按季节生成，无需设置。</li>
-      </ul>
-      <h3>🖨 打印</h3>
-      <ul>
-        <li><kbd>Ctrl</kbd>+<kbd>P</kbd> 可直接打印，每个节气会自动独占一页（PPT 式）。</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 </main>
 
 <!-- 证书灯箱 -->
@@ -599,7 +561,7 @@ const TERMS = [
     '姓名：李赵赫　｜　性别：男　｜　MBTI：INTP（逻辑学家型）',
     '院校：青岛农业大学（本科在读）　｜　学院专业：农业资源与环境',
     '电话：19031017128　｜　微信：lzh5186933',
-    '邮箱：19031017128@163.com　｜　GitHub / LinkedIn / 个人主页：【待补】']},
+    '邮箱：19031017128@163.com']},
   {t:'bullets', h:'目标方向', items:[
     '核心目标：通过<b>推免（保研）</b>进入【目标院校 · 科研方向，待补】。',
     '兴趣方向：人工智能 / 【专业相关方向，待补】，善用 AI 工具放大学习与产出效率。']}
@@ -789,7 +751,6 @@ const TERMS = [
  blocks:[
   {t:'bullets', h:'目标', items:[
     '力争通过<b>推免（保研）</b>进入 <b>【目标院校 · 科研方向，待补】</b>，方向倾向 <b>【AI / 专业方向，待补】</b>。']},
-  {t:'progress', pct:38, note:'整体准备进度约 38%（第 1 阶段 · 夯实基础）'},
   {t:'bullets', h:'分项清单', items:[
     '<b>绩点排名：</b>当前专业前 <b>【X】%</b>，持续冲刺【目标排名，待补】。',
     '<b>科研经历：</b>【在研课题 / 大创项目，待补】，积累科研方法与论文写作能力。',
