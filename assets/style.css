@@ -1,0 +1,232 @@
+/* ═══════════════════════════════════════════════════════════════
+   李赵赫 · 个人网站 —— 全站共享样式（四季 · 二十四节气设计系统）
+   所有页面统一使用本文件：顶部导航 / 页脚 / 页面结构 / 卡片 / 季节配色
+   季节色工具类：sc-spring / sc-summer / sc-autumn / sc-winter
+   ═══════════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FAF6EC;
+  --ink:#2E2C28;
+  --muted:#8A8373;
+  --line:#E7DFCC;
+  --card:#FFFFFF;
+
+  --spring:#6E9C5D;  --spring-deep:#4F7A40;  --spring-tint:#EDF3E6;
+  --summer:#2E8B74;  --summer-deep:#1F6A58;  --summer-tint:#E4F0EA;
+  --autumn:#C97B2D;  --autumn-deep:#A25E1D;  --autumn-tint:#F6ECDA;
+  --winter:#4A6289;  --winter-deep:#35476B;  --winter-tint:#E6EAF1;
+
+  --seal:#B23A2E;
+
+  --xing:"华文行楷","STXingkai","Xingkai SC","STKaiti","KaiTi",cursive;
+  --kai:"STKaiti","KaiTi","楷体",serif;
+  --song:"STSong","SimSun","宋体",serif;
+
+  --shadow:0 6px 18px rgba(0,0,0,.07);
+  --shadow-lg:0 14px 32px rgba(0,0,0,.12);
+}
+
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%; display:block;}
+a{color:var(--ink);}
+
+/* ═══════════ 顶部导航 ═══════════ */
+.site-header{
+  position:sticky; top:0; z-index:60;
+  background:rgba(250,246,236,.94);
+  backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.site-nav{
+  max-width:1120px; margin:0 auto; padding:0 20px; height:62px;
+  display:flex; align-items:center; gap:6px; position:relative;
+}
+.site-logo{
+  font-family:var(--xing); font-size:22px; letter-spacing:1px;
+  color:var(--ink); text-decoration:none; margin-right:auto; white-space:nowrap;
+}
+.site-logo b{color:var(--seal);}
+.nav-links{display:flex; gap:4px; align-items:center;}
+.nav-link{
+  color:var(--ink); text-decoration:none; font-size:14px;
+  padding:6px 14px; border-radius:20px; transition:.2s; white-space:nowrap;
+}
+.nav-link:hover{background:#fff; box-shadow:var(--shadow);}
+.nav-link.active{color:#fff; background:var(--ink);}
+.nav-toggle{
+  display:none; background:none; border:1px solid var(--line); border-radius:10px;
+  padding:6px 13px; font-size:17px; cursor:pointer; color:var(--ink);
+}
+@media (max-width:720px){
+  .nav-links{
+    display:none; position:absolute; top:62px; left:0; right:0;
+    background:var(--paper); border-bottom:1px solid var(--line);
+    padding:10px 20px 14px; flex-direction:column; align-items:flex-start; gap:2px;
+    box-shadow:0 18px 30px rgba(0,0,0,.08);
+  }
+  .nav-links.open{display:flex;}
+  .nav-toggle{display:inline-block;}
+}
+
+/* ═══════════ 页脚 ═══════════ */
+.site-footer{
+  margin-top:76px; border-top:1px solid var(--line);
+  padding:36px 20px 46px; text-align:center; color:var(--muted); font-size:13px;
+}
+.site-footer .f-quote{font-family:var(--kai); font-size:15px; letter-spacing:2px; color:var(--ink);}
+.site-footer b{color:var(--seal);}
+.f-links{margin-top:12px; display:flex; gap:16px; justify-content:center; flex-wrap:wrap;}
+.f-links a{color:var(--muted); text-decoration:none; transition:.2s;}
+.f-links a:hover{color:var(--seal);}
+
+/* ═══════════ 页面容器 / 区块 ═══════════ */
+.page{max-width:1120px; margin:0 auto; padding:0 20px;}
+.section{margin-top:52px;}
+.section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:8px; flex-wrap:wrap;}
+.section-title{
+  font-family:var(--kai); font-size:24px; letter-spacing:3px; color:var(--ink);
+  display:flex; align-items:center; gap:10px;
+}
+.section-title::before{content:""; width:7px; height:24px; border-radius:5px; background:var(--sc,var(--autumn));}
+.section-title em{font-style:normal; font-size:13px; color:var(--muted); letter-spacing:1px; font-family:"Microsoft YaHei",sans-serif;}
+.section-sub{color:var(--muted); font-size:13.5px; margin-bottom:22px;}
+
+/* ═══════════ 页面 Hero ═══════════ */
+.page-hero{text-align:center; padding:64px 20px 20px;}
+.page-hero .hero-stamp{
+  display:inline-block; border:3px double var(--seal); color:var(--seal);
+  font-family:var(--xing); font-size:44px; letter-spacing:10px; padding:10px 26px; border-radius:10px;
+  background:rgba(251,243,238,.6);
+}
+.page-hero h1{margin-top:16px; font-size:34px; letter-spacing:2px;}
+.page-hero .hero-sub{margin-top:8px; color:var(--muted); font-size:15px; letter-spacing:1px;}
+.page-hero .hero-tags{margin-top:16px; display:flex; gap:10px; justify-content:center; flex-wrap:wrap;}
+
+/* ═══════════ 通用组件 ═══════════ */
+.btn{
+  display:inline-block; border:1px solid var(--line); background:#fff; color:var(--ink);
+  border-radius:24px; padding:9px 22px; font-size:14px; cursor:pointer; text-decoration:none;
+  transition:transform .2s, box-shadow .2s, border-color .2s; font-family:inherit;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:var(--shadow); border-color:#C9BFAB;}
+.btn.primary{background:var(--ink); color:#fff; border-color:var(--ink);}
+.btn.primary:hover{background:#14120F;}
+.btn.season{background:var(--sc,var(--autumn)); color:#fff; border-color:transparent;}
+.btn.season:hover{filter:brightness(1.08);}
+.btn.ghost{background:transparent;}
+.progress{height:10px; border-radius:8px; background:#EDE6D6; margin-top:8px; overflow:hidden;}
+.progress i{display:block; height:100%; border-radius:8px;}
+
+.tag{
+  display:inline-block; border:1px solid var(--line); background:#fff;
+  border-radius:20px; padding:4px 15px; font-size:13px; box-shadow:0 2px 6px rgba(0,0,0,.03);
+}
+.tag b{color:var(--sc,var(--autumn));}
+
+/* 卡片 */
+.card{
+  background:var(--card); border:1px solid var(--line); border-radius:18px;
+  padding:22px 24px; box-shadow:var(--shadow); position:relative; overflow:hidden;
+  transition:transform .28s cubic-bezier(.22,.61,.36,1), box-shadow .28s;
+}
+.card:hover{transform:translateY(-5px); box-shadow:var(--shadow-lg);}
+.card::after{content:""; position:absolute; left:18px; right:18px; top:0; height:5px; border-radius:0 0 8px 8px; background:var(--sc,var(--autumn)); opacity:.85;}
+.card .card-title{font-size:17px; font-weight:700; display:flex; align-items:center; flex-wrap:wrap; gap:8px;}
+.card .card-sub{font-size:12.5px; color:var(--muted); margin-top:4px;}
+.card p{margin-top:10px; font-size:14px;}
+.card ul.dots{list-style:none; margin-top:10px;}
+.card ul.dots li{position:relative; padding-left:18px; margin:7px 0; font-size:14px;}
+.card ul.dots li::before{content:""; position:absolute; left:0; top:10px; width:7px; height:7px; border-radius:50%; background:var(--sc,var(--autumn));}
+
+.grid{display:grid; gap:20px;}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr));}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.grid-4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+
+/* 季节配色工具类（配合 --sc 变量使用） */
+.sc-spring{--sc:var(--spring); --sc-deep:var(--spring-deep);}
+.sc-summer{--sc:var(--summer); --sc-deep:var(--summer-deep);}
+.sc-autumn{--sc:var(--autumn); --sc-deep:var(--autumn-deep);}
+.sc-winter{--sc:var(--winter); --sc-deep:var(--winter-deep);}
+.tint-spring{background:linear-gradient(150deg,var(--spring-tint),transparent 65%);}
+.tint-summer{background:linear-gradient(150deg,var(--summer-tint),transparent 65%);}
+.tint-autumn{background:linear-gradient(150deg,var(--autumn-tint),transparent 65%);}
+.tint-winter{background:linear-gradient(150deg,var(--winter-tint),transparent 65%);}
+
+/* 季节门（首页 / 导航用） */
+.season-gate{
+  text-align:center; color:#fff; border:none; border-radius:22px; padding:26px 12px 22px; cursor:pointer;
+  text-decoration:none; display:block; position:relative; overflow:hidden;
+  box-shadow:0 12px 26px rgba(0,0,0,.16); transition:transform .3s, box-shadow .3s;
+}
+.season-gate:hover{transform:translateY(-7px) scale(1.02); box-shadow:0 20px 40px rgba(0,0,0,.22);}
+.season-gate::before{content:attr(data-c); position:absolute; right:0; bottom:-20px; font-family:var(--xing); font-size:96px; opacity:.16; line-height:1;}
+.season-gate .g-char{font-family:var(--xing); font-size:52px; line-height:1.15; display:block;}
+.season-gate .g-name{font-size:20px; font-weight:700; letter-spacing:4px; display:block; margin-top:2px;}
+.season-gate .g-sub{font-size:12px; opacity:.9; display:block; margin-top:4px;}
+.gate-spring{background:linear-gradient(155deg,#8AB573,#527C44);}
+.gate-summer{background:linear-gradient(155deg,#44A488,#1D6B58);}
+.gate-autumn{background:linear-gradient(155deg,#E1A84E,#A45F1F);}
+.gate-winter{background:linear-gradient(155deg,#6984AC,#32486E);}
+
+/* 证书墙 */
+.cert-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:16px;}
+.cert-slot{
+  border:1px solid var(--line); border-radius:16px; padding:10px; background:#fff;
+  text-align:center; box-shadow:var(--shadow); transition:transform .25s, box-shadow .25s;
+}
+.cert-slot:hover{transform:translateY(-5px); box-shadow:var(--shadow-lg);}
+.cert-img{
+  width:100%; aspect-ratio:4/3; border-radius:10px; overflow:hidden; position:relative; cursor:pointer;
+  background:repeating-linear-gradient(45deg,#F3EEDA,#F3EEDA 10px,#EDE5D2 10px,#EDE5D2 20px);
+  display:flex; align-items:center; justify-content:center; color:#A79E88; font-size:12px;
+}
+.cert-img img{width:100%; height:100%; object-fit:cover; transition:transform .35s;}
+.cert-slot:hover .cert-img img{transform:scale(1.06);}
+.cert-img .zoom-hint{position:absolute; bottom:7px; left:50%; transform:translateX(-50%); background:rgba(46,44,40,.66); color:#fff; font-size:11px; padding:2px 12px; border-radius:20px; opacity:0; transition:.25s; white-space:nowrap; pointer-events:none;}
+.cert-slot:hover .cert-img .zoom-hint{opacity:1;}
+.cert-name{font-size:13px; margin-top:8px; font-weight:600; color:#6B6457;}
+.cert-group{font-size:12px; color:var(--muted); letter-spacing:1px;}
+
+/* 灯箱 */
+.lightbox{position:fixed; inset:0; z-index:200; background:rgba(20,18,14,.9); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s;}
+.lightbox.open{opacity:1; pointer-events:auto;}
+.lb-stage{max-width:88vw; max-height:86vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 70px;}
+.lb-stage img{max-width:88vw; max-height:70vh; object-fit:contain; border-radius:10px; box-shadow:0 24px 70px rgba(0,0,0,.55); transform:scale(.95); transition:transform .3s;}
+.lightbox.open .lb-stage img{transform:scale(1);}
+.lb-cap{margin-top:14px; color:#fff; font-size:16px; font-weight:600; letter-spacing:1px;}
+.lb-count{margin-top:6px; color:rgba(255,255,255,.6); font-size:12.5px; letter-spacing:2px;}
+.lb-close{position:absolute; top:18px; right:24px; background:rgba(255,255,255,.14); border:none; color:#fff; font-size:17px; width:44px; height:44px; border-radius:50%; cursor:pointer;}
+.lb-close:hover{background:rgba(255,255,255,.3);}
+.lb-nav{position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.14); border:none; color:#fff; font-size:32px; width:54px; height:76px; border-radius:16px; cursor:pointer;}
+.lb-nav:hover{background:rgba(255,255,255,.3);}
+.lb-prev{left:20px;} .lb-next{right:20px;}
+
+/* 飘落季节元素 */
+.fx{position:fixed; z-index:0; top:-40px; pointer-events:none; animation:fxfall linear infinite; opacity:.4;}
+body.season-spring .fx{background:var(--spring); border-radius:80% 0 80% 0;}
+body.season-summer .fx{background:var(--summer); border-radius:30% 70% 60% 40%;}
+body.season-autumn .fx{background:var(--autumn); border-radius:50% 50% 0 50%;}
+body.season-winter .fx{background:var(--winter); border-radius:50%;}
+@keyframes fxfall{
+  0%{transform:translate3d(0,0,0) rotate(0deg);}
+  100%{transform:translate3d(7vw,118vh,0) rotate(360deg);}
+}
+
+/* 滚动显现动画 */
+.reveal{opacity:0; transform:translateY(22px); transition:opacity .6s ease, transform .6s ease;}
+.reveal.visible{opacity:1; transform:none;}
+
+/* 响应式 */
+@media (max-width:720px){
+  .page-hero{padding:44px 16px 12px;}
+  .page-hero h1{font-size:27px;}
+  .site-footer{margin-top:50px;}
+}

@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李赵赫 · 四季履历（二十四节气 · PPT 版）</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   李赵赫 · 四季 · 二十四节气 简历（v2 · PPT 式）
+   结构：首页(四季之门) → 季节页(6 节气) → 节气详情页(内容+古诗)
+   特点：每个节气独立成一页，点击进入，动画丝滑；四季各有装饰元素。
+   编辑方式见「编辑指南」页（投递前可删除）。
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --paper:#FAF6EC;
+  --ink:#2E2C28; --muted:#8A8373; --line:#E7DFCC; --card:#FFFFFF;
+
+  --spring:#6E9C5D; --spring-deep:#4F7A40; --spring-tint:#EDF3E6;
+  --summer:#2E8B74; --summer-deep:#1F6A58; --summer-tint:#E4F0EA;
+  --autumn:#C97B2D; --autumn-deep:#A25E1D; --autumn-tint:#F6ECDA;
+  --winter:#4A6289; --winter-deep:#35476B; --winter-tint:#E6EAF1;
+
+  --seal:#B23A2E;
+  --xing:"华文行楷","STXingkai","Xingkai SC","STKaiti","KaiTi",cursive;
+  --kai:"STKaiti","KaiTi","楷体",serif;
+  --song:"STSong","SimSun","宋体",serif;
+  --fx:#6E9C5D;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC","Noto Sans SC",sans-serif;
+  line-height:1.75; overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 季节背景层（丝滑渐变切换） ---------- */
+.bg{position:fixed; inset:0; z-index:-1; opacity:0; transition:opacity .8s ease;}
+.bg.spring{background:radial-gradient(1100px 750px at 82% 8%, #EFF6E6 0%, transparent 62%), radial-gradient(900px 700px at 8% 92%, #F6F0E0 0%, transparent 58%), var(--paper);}
+.bg.summer{background:radial-gradient(1100px 750px at 82% 8%, #E2F1EA 0%, transparent 62%), radial-gradient(900px 700px at 8% 92%, #F6F0E0 0%, transparent 58%), var(--paper);}
+.bg.autumn{background:radial-gradient(1100px 750px at 82% 8%, #F8EDD8 0%, transparent 62%), radial-gradient(900px 700px at 8% 92%, #F6F0E0 0%, transparent 58%), var(--paper);}
+.bg.winter{background:radial-gradient(1100px 750px at 82% 8%, #E7ECF3 0%, transparent 62%), radial-gradient(900px 700px at 8% 92%, #F6F0E0 0%, transparent 58%), var(--paper);}
+body[data-season="spring"] .bg.spring,
+body[data-season="summer"] .bg.summer,
+body[data-season="autumn"] .bg.autumn,
+body[data-season="winter"] .bg.winter{opacity:1;}
+
+/* ---------- 飘落装饰（花瓣/水珠/落叶/雪花） ---------- */
+.fx{position:fixed; z-index:0; top:-40px; background:var(--fx); pointer-events:none;
+    animation:fxfall linear infinite; will-change:transform; }
+body[data-season="spring"] .fx{border-radius:80% 0 80% 0;}
+body[data-season="summer"]  .fx{border-radius:30% 70% 60% 40%;}
+body[data-season="autumn"]  .fx{border-radius:50% 50% 0 50%;}
+body[data-season="winter"]  .fx{border-radius:50%;}
+body[data-season="home"] .fx, body[data-season="map"] .fx, body[data-season="guide"] .fx{display:none;}
+@keyframes fxfall{
+  0%  {transform:translate3d(0,0,0) rotate(0deg);}
+  100%{transform:translate3d(7vw,118vh,0) rotate(360deg);}
+}
+
+/* ---------- 幻灯片通用 ---------- */
+.slide{
+  position:fixed; inset:0; z-index:1;
+  opacity:0; transform:translateY(18px);
+  pointer-events:none; visibility:hidden;
+  transition:opacity .55s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1), visibility .55s;
+  display:flex; flex-direction:column;
+}
+.slide.active{opacity:1; transform:none; pointer-events:auto; visibility:visible;}
+.slide-scroll{flex:1; overflow-y:auto; overflow-x:hidden; padding:0 34px 40px;}
+.slide-scroll::-webkit-scrollbar{width:8px;}
+.slide-scroll::-webkit-scrollbar-thumb{background:#D8D0BC; border-radius:8px;}
+
+.btn{
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  border-radius:22px; padding:7px 16px; font-size:13px; cursor:pointer;
+  transition:transform .2s, box-shadow .2s, border-color .2s;
+  font-family:inherit;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 6px 14px rgba(0,0,0,.08); border-color:#C9BFAB;}
+.btn.ghost{background:transparent;}
+.btn.round{width:40px; height:40px; border-radius:50%; padding:0; display:inline-flex; align-items:center; justify-content:center;}
+
+/* 顶部通用条 */
+.shead{display:flex; align-items:center; gap:14px; padding:24px 34px 6px;}
+.shead .btn{flex-shrink:0;}
+
+/* ═══════════════ 首页 ═══════════════ */
+#s-home .home-wrap{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:26px 20px; overflow-y:auto;}
+.home-tag{font-size:13px; letter-spacing:4px; color:var(--muted); border:1px solid var(--line); border-radius:20px; padding:5px 18px; background:#fff; margin-bottom:22px;}
+.myname{
+  font-family:var(--xing); font-size:96px; line-height:1.1; color:var(--ink);
+  text-shadow:0 4px 18px rgba(0,0,0,.06); letter-spacing:10px;
+}
+.stamp{
+  display:inline-block; margin-top:10px; border:3px double var(--seal); color:var(--seal);
+  padding:4px 22px; border-radius:8px; font-family:var(--xing); font-size:24px; letter-spacing:8px;
+  background:rgba(251,243,238,.6);
+}
+.home-sub{margin-top:14px; font-size:16px; font-weight:600; letter-spacing:1px;}
+.home-contact{margin-top:8px; font-size:13.5px; color:var(--muted);}
+.home-contact b{color:var(--seal);}
+.home-contact i{font-style:normal; color:#C9C0AC; margin:0 6px;}
+.gates{display:flex; gap:22px; flex-wrap:wrap; justify-content:center; margin-top:38px;}
+.gate{
+  width:148px; height:196px; border:none; border-radius:24px; color:#fff; cursor:pointer;
+  position:relative; overflow:hidden; text-align:center;
+  box-shadow:0 12px 26px rgba(0,0,0,.14);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s;
+}
+.gate::before{content:attr(data-c); position:absolute; right:2px; bottom:-14px; font-family:var(--xing); font-size:96px; opacity:.16;}
+.gate:hover{transform:translateY(-9px) scale(1.03); box-shadow:0 20px 40px rgba(0,0,0,.20);}
+.gate .g-char{display:block; font-family:var(--xing); font-size:58px; line-height:1.2; margin-top:26px;}
+.gate .g-name{display:block; font-size:21px; font-weight:700; letter-spacing:4px; margin-top:2px;}
+.gate .g-sub{display:block; font-size:12px; opacity:.92; margin-top:6px; letter-spacing:1px;}
+.gate.spring{background:linear-gradient(155deg,#8AB573,#527C44);}
+.gate.summer{background:linear-gradient(155deg,#44A488,#1D6B58);}
+.gate.autumn{background:linear-gradient(155deg,#E1A84E,#A45F1F);}
+.gate.winter{background:linear-gradient(155deg,#6984AC,#32486E);}
+.home-hint{margin-top:34px; font-size:12.5px; color:var(--muted); letter-spacing:1px;}
+.home-hint kbd{border:1px solid var(--line); background:#fff; border-radius:5px; padding:1px 7px; font-size:11.5px;}
+.home-links{margin-top:14px; display:flex; gap:10px; justify-content:center;}
+
+/* ═══════════════ 季节页 ═══════════════ */
+.season-char{font-family:var(--xing); font-size:78px; line-height:1; filter:drop-shadow(0 4px 10px rgba(0,0,0,.12));}
+.shead h2{font-size:30px; letter-spacing:3px;}
+.shead .s-motto{font-size:13px; color:var(--muted); margin-top:2px;}
+.shead .s-desc{font-size:13px; color:var(--muted);}
+/* ---------- 季节页 · 六节气轮盘 ---------- */
+.season-stage{position:relative; flex:1; min-height:0; overflow:auto; padding:6px 46px 24px;}
+#s-spring .season-stage{--ring-c:var(--spring); --wm-c:var(--spring);}
+#s-summer .season-stage{--ring-c:var(--summer); --wm-c:var(--summer);}
+#s-autumn .season-stage{--ring-c:var(--autumn); --wm-c:var(--autumn);}
+#s-winter .season-stage{--ring-c:var(--winter); --wm-c:var(--winter);}
+.s-counts{margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
+.s-counts i{font-style:normal; font-size:11.5px; padding:3px 12px; border-radius:20px; border:1px solid var(--line); background:#fff;}
+.s-counts .c-done{color:var(--summer); border-color:var(--summer);}
+.s-counts .c-doing{color:var(--seal); border-color:var(--seal);}
+.s-counts .c-lock{color:#9A968A; border-color:#D8D3C6;}
+
+.ring{position:absolute; left:50%; top:56%; transform:translate(-50%,-50%); border-radius:50%; pointer-events:none; z-index:0;}
+.ring.r1{width:min(94%,780px); aspect-ratio:1; border:2px dashed var(--ring-c); opacity:.5; animation:spin 100s linear infinite;}
+.ring.r2{width:min(80%,660px); aspect-ratio:1; border:1px solid var(--ring-c); opacity:.32;}
+.ring.r3{width:min(62%,520px); aspect-ratio:1; border:1px dotted var(--ring-c); opacity:.25;}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg);}}
+.watermark{position:absolute; left:50%; top:56%; transform:translate(-50%,-50%); font-family:var(--xing); font-size:360px; line-height:1; color:var(--wm-c); opacity:.08; pointer-events:none; z-index:0;}
+.v-strip{position:absolute; right:12px; top:50%; transform:translateY(-50%); writing-mode:vertical-rl; font-family:var(--kai); font-size:13.5px; color:var(--ring-c); opacity:.7; letter-spacing:4px; max-height:78%; overflow:hidden; pointer-events:none; z-index:1; text-orientation:upright;}
+.orn{position:absolute; width:32px; height:32px; border:0; opacity:.55; pointer-events:none; z-index:3;}
+.orn.tl{top:12px; left:14px; border-top:3px solid var(--ring-c); border-left:3px solid var(--ring-c); border-radius:8px 0 0 0;}
+.orn.tr{top:12px; right:14px; border-top:3px solid var(--ring-c); border-right:3px solid var(--ring-c); border-radius:0 8px 0 0;}
+.orn.bl{bottom:12px; left:14px; border-bottom:3px solid var(--ring-c); border-left:3px solid var(--ring-c); border-radius:0 0 0 8px;}
+.orn.br{bottom:12px; right:14px; border-bottom:3px solid var(--ring-c); border-right:3px solid var(--ring-c); border-radius:0 0 8px 0;}
+
+.stage-ring{position:absolute; left:50%; top:52%; z-index:2; --r:min(clamp(290px, 48vmin, 380px), calc((100vh - 250px) / 2));}
+.stage-ring .tile, .stage-ring .tile-seal, .stage-ring .t-deco{position:absolute; left:0; top:0;}
+.stage-ring .tile{
+  width:clamp(210px, calc(var(--r)*0.82), 325px);
+  aspect-ratio:1.618 / 1;              /* 黄金比例长方形 */
+  display:flex; flex-direction:column; align-items:center; text-align:center; justify-content:center;
+  z-index:2;
+  --base:translate(-50%,-50%) rotate(var(--a,0deg)) translateY(calc(var(--r)*-1)) rotate(calc(var(--a,0deg)*-1));
+  transform:var(--base);
+}
+.stage-ring .tile:hover{transform:var(--base) translateY(-10px) scale(1.04);}
+.stage-ring .tile-seal{width:190px; height:190px; transform:translate(-50%,-50%);}
+.tile .quest{display:inline-block; margin-top:3px;}
+
+/* 节气间隙的季节物候徽章 */
+.t-deco{
+  width:30px; height:30px; border-radius:50%;
+  border:1.5px dashed color-mix(in srgb, var(--sc,#999) 60%, transparent);
+  color:var(--sc,#999); background:rgba(255,255,255,.55);
+  font-family:var(--kai); font-size:14px;
+  display:flex; align-items:center; justify-content:center;
+  opacity:.5; pointer-events:none; z-index:1;
+  --base:translate(-50%,-50%) rotate(var(--a,0deg)) translateY(calc(var(--r)*-1)) rotate(calc(var(--a,0deg)*-1));
+  transform:var(--base);
+  animation:tdeco 4.5s ease-in-out infinite;
+}
+@keyframes tdeco{0%,100%{opacity:.28;}50%{opacity:.65;}}
+.tile{
+  border:none; text-align:left; cursor:pointer; position:relative;
+  background:radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--sc,#999) 13%, #fff) 0%, #FDFBF4 55%, #fff 100%);
+  border:1px solid var(--line); border-radius:18px;
+  padding:13px 13px 11px; box-shadow:0 5px 14px rgba(0,0,0,.07);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1), box-shadow .3s;
+  font-family:inherit; overflow:hidden;
+}
+.tile::after{content:""; position:absolute; left:14px; right:14px; top:0; height:5px; border-radius:0 0 8px 8px; background:linear-gradient(90deg,var(--sc,#999),transparent);}
+.tile:hover{transform:translateY(-8px); box-shadow:0 18px 34px rgba(0,0,0,.14);}
+.tile:hover .t-seal{transform:rotate(-8deg) scale(1.1);}
+.tile .t-seal{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:50%; color:#fff; flex-shrink:0;
+  font-family:var(--kai); font-weight:700; font-size:13.5px;
+  background:linear-gradient(135deg, color-mix(in srgb, var(--sc,#999) 78%, #fff), var(--sc,#999));
+  box-shadow:0 4px 10px color-mix(in srgb, var(--sc,#999) 45%, transparent);
+  margin-bottom:7px; transition:transform .3s;
+}
+.tile .t-title{display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; font-size:14.5px; font-weight:700; line-height:1.4;}
+.tile .t-sub{display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; font-size:12px; color:var(--muted); margin-top:7px; line-height:1.5;}
+.tile .status{position:absolute; top:12px; right:12px; font-size:11px; padding:1px 9px; border-radius:20px; border:1px solid;}
+.tile .t-go{display:block; margin-top:8px; font-size:12.5px; color:var(--sc,#999); font-weight:700; letter-spacing:1px; opacity:0; transform:translateX(-6px); transition:.3s;}
+.tile:hover .t-go{opacity:1; transform:none;}
+.tile .t-motif{position:absolute; right:6px; bottom:0; font-family:var(--kai); font-size:40px; line-height:1; color:var(--sc,#999); opacity:.08; pointer-events:none;}
+
+/* 轮盘中心印章 */
+.tile-seal{
+  background:radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--sc,#999) 72%, #fff) 0%, var(--sc-deep,#555) 78%);
+  color:#fff; border-radius:50%; aspect-ratio:1; max-width:250px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  border:2px solid rgba(255,255,255,.55);
+  box-shadow:0 14px 34px color-mix(in srgb, var(--sc,#999) 40%, transparent);
+}
+.tile-seal .seal-char{font-family:var(--xing); font-size:72px; line-height:1.05;}
+.tile-seal .seal-word{font-size:12.5px; letter-spacing:3px; opacity:.94;}
+.tile-seal .seal-motto{font-size:11px; opacity:.85; font-family:var(--kai); margin-top:4px; text-align:center; padding:0 16px;}
+.quest{font-size:11px; padding:1px 8px; border-radius:20px; font-weight:600;}
+.quest.main{background:var(--seal); color:#fff;}
+.quest.side{background:#F0EADA; color:#8A7F5F;}
+.status.doing{color:var(--seal); border-color:var(--seal); background:#FBF0EE;}
+.status.done{color:var(--summer); border-color:var(--summer); background:#E9F4F0;}
+.status.locked{color:#9A968A; border-color:#D8D3C6; background:#F6F4EE;}
+
+/* ═══════════════ 节气详情页 ═══════════════ */
+.t-topbar{display:flex; gap:10px; align-items:center; padding:18px 34px 6px; flex-wrap:wrap;}
+.t-topbar .sp{flex:1;}
+.t-count{font-size:12px; color:var(--muted); letter-spacing:1px;}
+.t-body-wrap{flex:1; overflow-y:auto; overflow-x:hidden; padding:10px 34px 26px; position:relative;}
+.t-ring{position:absolute; left:50%; top:4%; transform:translateX(-50%); width:86%; height:90%; border-radius:50%; border:2px dashed var(--ring-c,#ccc); opacity:.22; pointer-events:none;}
+.t-wm{position:absolute; right:6%; top:6%; font-family:var(--xing); font-size:150px; line-height:1; color:var(--ring-c,#ccc); opacity:.04; pointer-events:none; z-index:0; transform:rotate(8deg);}
+.t-body-wrap::-webkit-scrollbar{width:8px;}
+.t-body-wrap::-webkit-scrollbar-thumb{background:#D8D0BC; border-radius:8px;}
+.t-card{max-width:920px; margin:0 auto; position:relative; z-index:1;}
+.t-head{display:flex; align-items:center; gap:18px;}
+.t-seal-big{
+  width:92px; height:92px; border-radius:50%; flex-shrink:0; color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--xing); font-size:30px; letter-spacing:2px;
+  background:var(--sc,#999); box-shadow:0 8px 22px rgba(0,0,0,.22);
+}
+.t-kicker{font-size:12.5px; color:var(--muted); letter-spacing:2px; margin-top:2px;}
+.t-title{font-size:34px; font-weight:800; display:flex; align-items:center; flex-wrap:wrap; gap:10px; line-height:1.3;}
+.t-sub{font-size:13.5px; color:var(--muted); margin-top:4px;}
+.t-poem{
+  margin:18px 0 2px; position:relative;
+  background:linear-gradient(90deg,var(--sc-t,#fff),#fff 40%);
+  border-left:4px solid var(--sc,#999); border-radius:0 14px 14px 0;
+  padding:14px 72px 12px 24px; box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+.t-poem .line{font-family:var(--kai); font-size:18px; letter-spacing:2px; color:var(--ink);}
+.t-poem .src{font-size:12px; color:var(--muted); margin-top:3px; display:block;}
+.poem-seal{position:absolute; right:16px; bottom:14px; background:var(--seal); color:#fff; font-family:var(--kai); font-size:13px; letter-spacing:1px; padding:5px 9px; border-radius:6px; box-shadow:0 3px 10px rgba(178,58,46,.35);}
+
+/* 物候 · 三候（轻量融入古诗落款，不抢简历正文） */
+.hou-line{display:block; margin-top:6px; font-size:11.5px; color:var(--muted); font-family:var(--kai); letter-spacing:1.5px; opacity:.85;}
+
+.block{margin-top:18px;}
+.bt{font-size:14px; font-weight:800; color:#5F594C; border-left:4px solid var(--sc,#999); padding-left:10px; margin-bottom:8px; letter-spacing:1px;}
+ul.dots{list-style:none;}
+ul.dots li{position:relative; padding-left:20px; margin:8px 0; font-size:14.5px;}
+ul.dots li::before{content:""; position:absolute; left:2px; top:11px; width:7px; height:7px; border-radius:50%; background:var(--sc,#888); box-shadow:0 0 0 3px color-mix(in srgb, var(--sc,#888) 20%, transparent);}
+.kv{display:flex; flex-wrap:wrap; gap:9px; margin:6px 0;}
+.kv span{background:#fff; border:1px solid var(--line); border-radius:20px; padding:5px 15px; font-size:13.5px; box-shadow:0 2px 6px rgba(0,0,0,.04);}
+.kv span b{color:var(--sc,#666);}
+.kv.kv-card{background:transparent;}
+
+/* 证书图片区 */
+.cert-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(158px,1fr)); gap:14px;}
+.cert-slot{border:1px dashed #C9C0AC; border-radius:14px; padding:9px; background:#FCFAF4; text-align:center;}
+.cert-img{
+  width:100%; aspect-ratio:4/3; border-radius:10px; overflow:hidden; position:relative;
+  background:repeating-linear-gradient(45deg,#F3EEDA,#F3EEDA 10px,#EDE5D2 10px,#EDE5D2 20px);
+  display:flex; align-items:center; justify-content:center; color:#A79E88; font-size:12px;
+  cursor:pointer;
+}
+.cert-img img{width:100%; height:100%; object-fit:cover; transition:transform .35s ease;}
+.cert-slot:hover .cert-img img{transform:scale(1.07);}
+.cert-img .zoom-hint{position:absolute; bottom:7px; left:50%; transform:translateX(-50%); background:rgba(46,44,40,.66); color:#fff; font-size:11px; padding:2px 12px; border-radius:20px; opacity:0; transition:opacity .25s; white-space:nowrap; pointer-events:none;}
+.cert-slot:hover .cert-img .zoom-hint{opacity:1;}
+.cert-name{font-size:13px; margin-top:7px; font-weight:600; color:#6B6457;}
+
+/* 证书灯箱（点击放大） */
+.lightbox{position:fixed; inset:0; z-index:100; background:rgba(20,18,14,.9); display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .3s ease;}
+.lightbox.open{opacity:1; pointer-events:auto;}
+.lb-stage{max-width:88vw; max-height:86vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 70px;}
+.lb-stage img{max-width:88vw; max-height:70vh; object-fit:contain; border-radius:10px; box-shadow:0 24px 70px rgba(0,0,0,.55); transform:scale(.95); transition:transform .3s ease;}
+.lightbox.open .lb-stage img{transform:scale(1);}
+.lb-cap{margin-top:14px; color:#fff; font-size:16px; font-weight:600; letter-spacing:1px; text-shadow:0 2px 8px rgba(0,0,0,.5);}
+.lb-count{margin-top:6px; color:rgba(255,255,255,.6); font-size:12.5px; letter-spacing:2px;}
+.lb-close{position:absolute; top:18px; right:24px; background:rgba(255,255,255,.14); border:none; color:#fff; font-size:17px; width:44px; height:44px; border-radius:50%; cursor:pointer; transition:background .2s;}
+.lb-close:hover{background:rgba(255,255,255,.3);}
+.lb-nav{position:absolute; top:50%; transform:translateY(-50%); background:rgba(255,255,255,.14); border:none; color:#fff; font-size:32px; line-height:1; width:54px; height:76px; border-radius:16px; cursor:pointer; transition:background .2s;}
+.lb-nav:hover{background:rgba(255,255,255,.3);}
+.lb-prev{left:20px;}
+.lb-next{right:20px;}
+
+/* 进度 / 阶段（保研） */
+.progress{height:10px; border-radius:8px; background:#EDE6D6; overflow:hidden; margin-top:6px;}
+.progress i{display:block; height:100%; width:38%; background:linear-gradient(90deg,var(--sc,#C97B2D),#E3AC56); border-radius:8px; animation:prog 1.4s ease both;}
+@keyframes prog{from{width:0;}}
+.stages{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px;}
+.stage{border:1px solid var(--line); border-radius:12px; padding:10px 14px; font-size:13px; background:#FBF9F3; text-align:center;}
+.stage .st-no{display:block; font-weight:800; color:var(--sc,#C97B2D); font-size:13px; letter-spacing:1px;}
+.stage.active{border-color:var(--sc,#C97B2D); background:color-mix(in srgb, var(--sc,#C97B2D) 8%, #fff);}
+
+/* 时间线（霜降 · 里程碑） */
+.timeline{position:relative; padding-left:26px;}
+.timeline::before{content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--line);}
+.tl-item{position:relative; margin:14px 0;}
+.tl-item::before{content:""; position:absolute; left:-25px; top:9px; width:11px; height:11px; border-radius:50%; background:var(--sc,#888); box-shadow:0 0 0 4px color-mix(in srgb, var(--sc,#888) 18%, transparent);}
+.tl-item b{font-size:14.5px;}
+.tl-item span{display:block; font-size:13px; color:var(--muted);}
+
+/* 底部翻页 */
+.t-nav{display:flex; align-items:center; gap:12px; justify-content:center; padding:16px 20px 26px;}
+.t-nav .count{font-size:12.5px; color:var(--muted);}
+.ydots{display:flex; align-items:center; gap:5px; flex:1; justify-content:center; flex-wrap:wrap;}
+.yd{width:8px; height:8px; border-radius:50%; cursor:pointer; opacity:.5; transition:transform .25s, opacity .25s;}
+.yd:hover{transform:scale(1.6); opacity:.95;}
+.yd.s-spring{background:var(--spring);}
+.yd.s-summer{background:var(--summer);}
+.yd.s-autumn{background:var(--autumn);}
+.yd.s-winter{background:var(--winter);}
+.yd.yd-on{width:16px; height:16px; opacity:1; transform:translateY(-2px); outline:2px solid #fff; outline-offset:2px; box-shadow:0 2px 8px rgba(0,0,0,.28);}
+
+/* 节气总览地图 */
+.map-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; padding:6px 0 10px;}
+.map-col h3{font-family:var(--kai); font-size:20px; letter-spacing:3px; margin-bottom:10px; display:flex; align-items:center; gap:8px;}
+.map-col .mc-char{font-family:var(--xing); font-size:30px;}
+.mterm{display:flex; align-items:center; gap:10px; width:100%; border:1px solid var(--line); background:#fff; border-radius:12px; padding:8px 12px; margin-bottom:8px; cursor:pointer; text-align:left; font-family:inherit; transition:transform .2s, box-shadow .2s;}
+.mterm:hover{transform:translateX(4px); box-shadow:0 4px 12px rgba(0,0,0,.08);}
+.mterm .mseal{width:32px; height:32px; border-radius:50%; color:#fff; font-family:var(--kai); font-size:11px; display:flex; align-items:center; justify-content:center; background:var(--sc,#999); flex-shrink:0;}
+.mterm .mname{font-size:13.5px; font-weight:600;}
+.mterm .mtitle{font-size:11.5px; color:var(--muted); margin-left:auto;}
+
+/* 编辑指南 */
+.guide-box{max-width:880px; margin:0 auto; background:#FFFBF0; border:1px dashed #D9B65C; border-radius:16px; padding:22px 26px; font-size:13.5px; color:#5F5230;}
+.guide-box h3{font-size:17px; margin-bottom:8px;}
+.guide-box li{margin:6px 0 6px 4px;}
+code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; color:#8A6D3B;}
+
+.footer-note{text-align:center; font-size:12px; color:#B8B2A2; padding:4px 0 18px; letter-spacing:2px;}
+.footer-note b{color:var(--seal);}
+
+/* ---------- 小屏适配 ---------- */
+@media (max-width:760px), (max-height:620px){
+  .myname{font-size:64px; letter-spacing:6px;}
+  .gate{width:130px; height:170px;}
+  .gate .g-char{font-size:48px;}
+  .t-title{font-size:26px;}
+  .t-seal-big{width:74px; height:74px; font-size:24px;}
+  .stage-ring{position:static; left:auto; top:auto; width:100%; display:grid; grid-template-columns:repeat(2,1fr); gap:14px; padding:6px 0 24px;}
+  .stage-ring .tile,.stage-ring .tile-seal{position:static; transform:none !important; width:100%; max-width:none; justify-self:center;}
+  .tile-seal{width:160px; height:160px;}
+  .v-strip,.watermark,.ring.r3,.t-deco{display:none;}
+  .season-stage,.slide-scroll,.t-body-wrap,.shead{padding-left:16px; padding-right:16px;}
+}
+
+/* ---------- 返回网站首页悬浮按钮 ---------- */
+.site-fab{
+  position:fixed; bottom:20px; right:20px; z-index:99;
+  background:#fff; border:1px solid var(--line); border-radius:22px;
+  padding:8px 16px; font-size:13px; color:var(--ink); text-decoration:none;
+  box-shadow:0 5px 16px rgba(0,0,0,.14);
+  transition:color .2s, border-color .2s, transform .2s;
+}
+.site-fab:hover{color:var(--seal); border-color:var(--seal); transform:translateY(-2px);}
+
+/* ---------- 打印（每页一张 PPT） ---------- */
+@media print{
+  body{overflow:visible;}
+  .slide{position:static; opacity:1; transform:none; visibility:visible; display:flex; min-height:100vh; page-break-after:always;}
+  .bg,.fx,.lightbox,.site-fab{display:none !important;}
+  .t-topbar,.t-nav,.shead .btn,.home-hint,.home-links{display:none !important;}
+  .slide-scroll,.t-body-wrap{overflow:visible; padding:0 20px;}
+}
+</style>
+</head>
+<body data-season="home">
+
+<div class="bg spring"></div><div class="bg summer"></div>
+<div class="bg autumn"></div><div class="bg winter"></div>
+<div id="fx-box"></div>
+<a href="index.html" class="site-fab" title="返回网站首页">⌂ 网站首页</a>
+
+<main id="deck">
+
+<!-- ══════════════════════ 首页 ══════════════════════ -->
+<section class="slide active" id="s-home">
+  <div class="home-wrap">
+    <div class="home-tag">四季 · 二十四节气 · 履历</div>
+    <h1 class="myname">李赵赫</h1>
+    <div class="stamp">四 季 履 历</div>
+    <p class="home-sub">青岛农业大学 · 本科在读 · 目标：保研（推免）</p>
+    <div class="home-contact">
+      电话 <b>19031017128</b><i>·</i>微信 <b>lzh5186933</b><i>·</i>邮箱 <a href="mailto:19031017128@163.com" style="color:var(--seal); text-decoration:none; font-weight:600;">19031017128@163.com</a><i>·</i>GitHub / LinkedIn <b>【待补】</b>
+    </div>
+
+    <div class="gates">
+      <button class="gate spring" data-c="春" onclick="navSeason('spring')">
+        <span class="g-char">春</span><span class="g-name">生</span>
+        <span class="g-sub">萌芽与积累</span>
+      </button>
+      <button class="gate summer" data-c="夏" onclick="navSeason('summer')">
+        <span class="g-char">夏</span><span class="g-name">长</span>
+        <span class="g-sub">生长与拼搏</span>
+      </button>
+      <button class="gate autumn" data-c="秋" onclick="navSeason('autumn')">
+        <span class="g-char">秋</span><span class="g-name">收</span>
+        <span class="g-sub">成果与荣誉</span>
+      </button>
+      <button class="gate winter" data-c="冬" onclick="navSeason('winter')">
+        <span class="g-char">冬</span><span class="g-name">藏</span>
+        <span class="g-sub">沉淀与展望</span>
+      </button>
+    </div>
+
+    <div class="home-links">
+      <button class="btn" onclick="go('s-map')">🗺 二十四节气总览</button>
+      <button class="btn ghost" onclick="go('s-guide')">📋 编辑指南</button>
+    </div>
+    <p class="home-hint">点击四季之门 · 开启履历章节　｜　详情页可用 <kbd>←</kbd> <kbd>→</kbd> 翻页，<kbd>Esc</kbd> 返回</p>
+  </div>
+</section>
+
+<!-- ══════════════════════ 节气总览 ══════════════════════ -->
+<section class="slide" id="s-map">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div>
+      <h2 style="font-family:var(--kai); letter-spacing:3px;">廿四节气 · 总览</h2>
+      <p class="s-motto">一岁四时，春风夏长，秋收冬藏 —— 点击任一节气查看板块内容</p>
+    </div>
+  </header>
+  <div class="slide-scroll">
+    <div class="map-grid" id="mapGrid"></div>
+    <div class="footer-note">—— <b>李赵赫</b> · 二十四节气 · 春风化雨，皆是积累 ——</div>
+  </div>
+  <span class="orn tl" style="--ring-c:#C9C0AC;"></span><span class="orn tr" style="--ring-c:#C9C0AC;"></span><span class="orn bl" style="--ring-c:#C9C0AC;"></span><span class="orn br" style="--ring-c:#C9C0AC;"></span>
+</section>
+
+<!-- ══════════════════════ 四季季节页 ══════════════════════ -->
+<section class="slide" id="s-spring">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div class="season-char" style="color:var(--spring);">春</div>
+    <div>
+      <h2 style="color:var(--spring-deep);">春 · 生</h2>
+      <p class="s-motto">春到人间草木知　·　萌芽与积累 · 起点、教育、技能与兴趣</p>
+    </div>
+    <span class="s-counts" id="cnt-spring"></span>
+  </header>
+  <div class="season-stage" id="stage-spring">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="watermark">春</div>
+    <div class="stage-ring" data-season="spring"></div>
+    <div class="v-strip" data-vs="spring"></div>
+    <span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>
+  </div>
+</section>
+
+<section class="slide" id="s-summer">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div class="season-char" style="color:var(--summer);">夏</div>
+    <div>
+      <h2 style="color:var(--summer-deep);">夏 · 长</h2>
+      <p class="s-motto">万物至此皆长大　·　生长与拼搏 · 项目、实习与实践</p>
+    </div>
+    <span class="s-counts" id="cnt-summer"></span>
+  </header>
+  <div class="season-stage" id="stage-summer">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="watermark">夏</div>
+    <div class="stage-ring" data-season="summer"></div>
+    <div class="v-strip" data-vs="summer"></div>
+    <span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>
+  </div>
+</section>
+
+<section class="slide" id="s-autumn">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div class="season-char" style="color:var(--autumn);">秋</div>
+    <div>
+      <h2 style="color:var(--autumn-deep);">秋 · 收</h2>
+      <p class="s-motto">霜叶红于二月花　·　成果与荣誉 · 获奖、证书与升学目标</p>
+    </div>
+    <span class="s-counts" id="cnt-autumn"></span>
+  </header>
+  <div class="season-stage" id="stage-autumn">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="watermark">秋</div>
+    <div class="stage-ring" data-season="autumn"></div>
+    <div class="v-strip" data-vs="autumn"></div>
+    <span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>
+  </div>
+</section>
+
+<section class="slide" id="s-winter">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div class="season-char" style="color:var(--winter);">冬</div>
+    <div>
+      <h2 style="color:var(--winter-deep);">冬 · 藏</h2>
+      <p class="s-motto">冬至阳生春又来　·　沉淀与展望 · 特质、兴趣、评价与规划</p>
+    </div>
+    <span class="s-counts" id="cnt-winter"></span>
+  </header>
+  <div class="season-stage" id="stage-winter">
+    <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div>
+    <div class="watermark">冬</div>
+    <div class="stage-ring" data-season="winter"></div>
+    <div class="v-strip" data-vs="winter"></div>
+    <span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>
+  </div>
+</section>
+
+<!-- ══════════════════════ 节气详情页（JS 动态渲染） ══════════════════════ -->
+<section class="slide" id="s-term"></section>
+
+<!-- ══════════════════════ 编辑指南 ══════════════════════ -->
+<section class="slide" id="s-guide">
+  <header class="shead">
+    <button class="btn" onclick="back()">← 返回</button>
+    <div>
+      <h2 style="font-family:var(--kai); letter-spacing:3px;">📋 编辑指南</h2>
+      <p class="s-motto">本页投递前可整页删除（删掉 <code>&lt;section id="s-guide"&gt;</code> 一段即可）</p>
+    </div>
+  </header>
+  <div class="slide-scroll">
+    <div class="guide-box">
+      <h3>✏️ 怎么改内容</h3>
+      <ul>
+        <li>所有 24 个节气板块的内容都在 <b>页面底部 <code>&lt;script&gt;</code></b> 里的 <code>TERMS</code> 数组中，找到对应节气名（如 <code>term:'小暑'</code>），修改它的 <code>blocks</code> 内容即可。</li>
+        <li>每个板块字段含义：<code>title</code>＝板块标题，<code>quest</code>＝主线/支线任务，<code>status</code>＝状态，<code>poem</code>＝配套古诗，<code>blocks</code>＝正文内容（可用 <code>kv</code> 标签 / <code>bullets</code> 要点 / <code>certs</code> 证书图 / <code>stages</code> 阶段 / <code>timeline</code> 时间线）。</li>
+        <li>所有 <code>【待补】</code> 替换为你的真实信息；多余板块可整段删除。</li>
+        <li>「白露 · 证书」板块：在 TERMS 中找到 <code>bai-lu</code>，给每个证书项填 <code>img:"证书图片/四级.jpg"</code>（图片放到 HTML 同目录或子文件夹），即可显示证书图；留空则显示占位框。图片不裁剪，自动等比填充。</li>
+        <li>需要新板块：在 <code>TERMS</code> 数组中复制一个对象，改节气名与内容（24 节气已全部用到，也可自定名称）。</li>
+      </ul>
+      <h3>🎨 换季节配色 / 装饰</h3>
+      <ul>
+        <li>四季主色在 <code>&lt;style&gt;</code> 顶部 <code>:root</code> 里（<code>--spring / --summer / --autumn / --winter</code>），改色值即可全局换肤。</li>
+        <li>飘落装饰（花瓣/水珠/落叶/雪花）由页面自动按季节生成，无需设置。</li>
+      </ul>
+      <h3>🖨 打印</h3>
+      <ul>
+        <li><kbd>Ctrl</kbd>+<kbd>P</kbd> 可直接打印，每个节气会自动独占一页（PPT 式）。</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 证书灯箱 -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()" aria-label="关闭">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbPrev(event)">‹</button>
+  <div class="lb-stage">
+    <img id="lbImg" src="" alt="证书大图">
+    <div class="lb-cap" id="lbCap"></div>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+  <button class="lb-nav lb-next" onclick="lbNext(event)">›</button>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   内容数据区 —— 在此编辑 24 个节气板块
+   ═══════════════════════════════════════════════════════════ */
+const S_CSS = {spring:'spring', summer:'summer', autumn:'autumn', winter:'winter'};
+
+const SEASONS = {
+  spring:{name:'春', sub:'生', motto:'春到人间草木知', desc:'萌芽与积累 · 起点、教育、技能与兴趣'},
+  summer:{name:'夏', sub:'长', motto:'万物至此皆长大', desc:'生长与拼搏 · 项目、实习与实践'},
+  autumn:{name:'秋', sub:'收', motto:'霜叶红于二月花', desc:'成果与荣誉 · 获奖、证书与升学目标'},
+  winter:{name:'冬', sub:'藏', motto:'冬至阳生春又来', desc:'沉淀与展望 · 特质、兴趣、评价与规划'}
+};
+
+/* 每个季节用于点缀节气间隙的物候徽章字 */
+const GLYPHS = {
+  spring:['芽','蝶','燕','雨','柳','花'],
+  summer:['蝉','荷','蛙','萤','蜓','舟'],
+  autumn:['枫','月','菊','桂','雁','霜'],
+  winter:['雪','梅','冰','鹊','松','炉']
+};
+
+const TERMS = [
+/* ── 春 · 生 ── */
+{id:'li-chun', n:1, season:'spring', term:'立春', title:'基本档案', quest:'main',
+ status:{text:'已完成', cls:'done'},
+ poem:{line:'律回岁晚冰霜少，春到人间草木知。', src:'张栻《立春偶成》'},
+ sub:'东风解冻，蛰虫始振 · 岁首启程',
+ blocks:[
+  {t:'bullets', h:'个人信息', items:[
+    '姓名：李赵赫　｜　性别：男　｜　MBTI：INTP（逻辑学家型）',
+    '院校：青岛农业大学（本科在读）　｜　学院专业：农业资源与环境',
+    '电话：19031017128　｜　微信：lzh5186933',
+    '邮箱：19031017128@163.com　｜　GitHub / LinkedIn / 个人主页：【待补】']},
+  {t:'bullets', h:'目标方向', items:[
+    '核心目标：通过<b>推免（保研）</b>进入【目标院校 · 科研方向，待补】。',
+    '兴趣方向：人工智能 / 【专业相关方向，待补】，善用 AI 工具放大学习与产出效率。']}
+ ]},
+
+{id:'yu-shui', n:2, season:'spring', term:'雨水', title:'教育背景', quest:'main',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'好雨知时节，当春乃发生。', src:'杜甫《春夜喜雨》'},
+ sub:'獭祭鱼，鸿雁来，草木萌动 · 润物无声',
+ blocks:[
+  {t:'kv', h:'院校信息', items:['青岛农业大学','农业资源与环境','本科在读','2026.09 入学','2029.06 预计毕业']},
+  {t:'bullets', h:'学业成果', items:[
+    '主修<b>农业资源与环境</b>专业，核心课程涵盖【土壤学 / 植物营养学 / 环境科学，待补】，系统构建农业资源与环境知识体系。',
+    '综合绩点 <b>【X.X / 5.0，待补】</b>，专业排名 <b>前【X】%</b>，多次获评【校级奖学金，待补】。',
+    '参与【大创项目 / 科研训练 / 学科竞赛，待补】，将课堂理论转化为实践产出。',
+    '主动将 AI 工具引入学习流程，完成【文献阅读 / 代码实践 / 报告撰写，待补】，效率提升约 <b>【X%】</b>。',
+    '英语能力：CET-4 <b>【备考中】</b>，坚持英文文献阅读训练。']}
+ ]},
+
+{id:'jing-zhe', n:3, season:'spring', term:'惊蛰', title:'专业技能', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'微雨众卉新，一雷惊蛰始。', src:'韦应物《观田家》'},
+ sub:'桃始华，仓庚鸣 · 一雷惊万物，能力觉醒',
+ blocks:[
+  {t:'kv', h:'技能标签', items:['Python','C / C++','SQL','Pandas / NumPy','Matplotlib','Word / PPT / Excel','CET-4【备考中】','AI 工具（ChatGPT / Claude / Cursor / Kimi）']},
+  {t:'bullets', h:'能力描述', items:[
+    '<b>AI 工具素养：</b>熟练运用主流大模型与 AI 编程 / 办公工具辅助学习、写作与开发，显著提升个人产出效率。',
+    '<b>自主学习力：</b>习惯以资料、文档与工具驱动自我提升，新工具 / 新领域上手快。',
+    '<b>表达与交付：</b>可独立完成高质量报告与汇报 PPT，注重逻辑清晰与结果落地。']}
+ ]},
+
+{id:'chun-fen', n:4, season:'spring', term:'春分', title:'AI 兴趣与技术探索', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'仲春初四日，春色正中分。', src:'徐铉《春分日》'},
+ sub:'玄鸟至，雷乃发声 · 昼夜均平，好奇与专注均衡生长',
+ blocks:[
+  {t:'bullets', h:'兴趣与实践', items:[
+    '长期关注人工智能、大模型前沿动态，主动追踪行业技术与论文【待补】，保持技术敏感度。',
+    '熟练运用 AI 工具辅助学习与产出：覆盖代码调试、文献阅读、文档撰写、PPT 制作等场景，产出效率提升约 <b>【X%】</b>。',
+    '践行「人机协作」工作流：将 AI 作为效率杠杆，压缩重复劳动时间约 <b>【X%】</b>。',
+    '规划系统学习【机器学习 / 深度学习 / 自然语言处理，待补】，为保研科研方向做知识储备。',
+    '已尝试的 AI 实践：【AI 简历优化 / 学习计划管理 / 自动化脚本，待补】。']}
+ ]},
+
+{id:'qing-ming', n:5, season:'spring', term:'清明', title:'学习与方法论', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'问渠那得清如许？为有源头活水来。', src:'朱熹《观书有感二首·其一》'},
+ sub:'桐始华，田鼠化鴽 · 清明澄澈，源头活水',
+ blocks:[
+  {t:'bullets', h:'学习方法', items:[
+    '习惯「先框架、后细节」：用思维导图 + 复盘笔记沉淀知识体系，学习效率提升约 <b>【X%】</b>。',
+    '时间管理：以四象限与阶段性目标拆解任务，平衡学业、科研与兴趣投入。',
+    '信息素养：善用 AI 与搜索引擎完成高效检索与过滤，形成「输入 → 消化 → 输出」闭环。',
+    '待补充：【在校学习荣誉 / 学习笔记 / 学习成果，待补】。']}
+ ]},
+
+{id:'gu-yu', n:6, season:'spring', term:'谷雨', title:'课外自学与知识积累', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'谷雨春光晓，山川黛色青。', src:'元稹《咏廿四气诗·谷雨春光晓》'},
+ sub:'萍始生，鸣鸠拂其羽 · 雨生百谷，日积月累',
+ blocks:[
+  {t:'bullets', h:'自学版图', items:[
+    '课外自学【编程 / 数据分析 / AI 应用，待补】，弥补课程之外的能力版图。',
+    '通过在线课程 / 开源社区持续输入，累计完成 <b>【X 门 / X 小时】</b>系统学习。',
+    '自学成果：【完成的小工具 / 笔记库 / 博客，待补】。',
+    '待补充：【待补】。']}
+ ]},
+
+/* ── 夏 · 长 ── */
+{id:'li-xia', n:7, season:'summer', term:'立夏', title:'项目经历', quest:'main',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'小荷才露尖尖角，早有蜻蜓立上头。', src:'杨万里《小池》'},
+ sub:'蝼蝈鸣，蚯蚓出 · 万物至此皆长大，实践最见真章',
+ blocks:[
+  {t:'bullets', h:'【项目名称】【待补】｜角色：【负责人 / 核心成员】｜周期：【待补】', items:[
+    '背景与目标：针对【XX 问题，待补】发起项目，完成需求分析与方案设计，输出《【XX】方案》文档。',
+    '行动与实现：主导【XX 模块 / 功能】开发，基于【技术栈，待补】完成编码与联调，覆盖【XX】核心场景。',
+    '关键成果：通过【XX 优化手段】，将【运行效率 / 准确率】由 <b>【X%】</b> 提升至 <b>【X%】</b>。',
+    '外部反馈：项目【获得导师认可 / 参加竞赛 / 落地使用，待补】，服务用户 <b>【X+】</b>。',
+    '沉淀总结：产出【技术文档 / 复盘笔记，待补】，沉淀可复用方法论。']},
+  {t:'kv', h:'技术栈', items:['【待补】','【待补】','【待补】']}
+ ]},
+
+{id:'xiao-man', n:8, season:'summer', term:'小满', title:'副线项目 · 作品集', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'麦穗初齐稚子娇，桑叶正肥蚕食饱。', src:'欧阳修《归田园四时乐·春夏二首》'},
+ sub:'苦菜秀，靡草死 · 物致于此，小得盈满',
+ blocks:[
+  {t:'bullets', h:'作品集', items:[
+    '【副线作品 / 开源项目 / 课程设计，待补】。',
+    '【GitHub 仓库 / 在线作品链接，待补】。',
+    '秉持「小满未满」的心态：优先保证主线质量，副线持续积累迭代。']}
+ ]},
+
+{id:'mang-zhong', n:9, season:'summer', term:'芒种', title:'实习 / 工作经历', quest:'main',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'时雨及芒种，四野皆插秧。', src:'陆游《时雨》'},
+ sub:'螳螂生，鵙始鸣 · 有芒之种，可稼可种，辛勤耕耘',
+ blocks:[
+  {t:'bullets', h:'【公司 / 单位】【待补】｜【岗位】【待补】｜【20XX.XX – 20XX.XX】', items:[
+    '负责【XX 业务 / 模块】，独立完成【XX 任务】，支撑团队【XX】目标达成。',
+    '优化【流程 / 方法】，将【效率】提升 <b>【X%】</b>，降低【成本 / 错误率】<b>【X%】</b>。',
+    '跨团队协作：与【XX 部门】密切沟通，推动【项目】按期交付。',
+    '获得【leader 评价 / 实习转正 / 绩效评级，待补】。']}
+ ]},
+
+{id:'xia-zhi', n:10, season:'summer', term:'夏至', title:'校园实践 · 学生工作', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'昼晷已云极，宵漏自此长。', src:'韦应物《夏至避暑北池》'},
+ sub:'鹿角解，蝉始鸣 · 日长之至，精力最盛',
+ blocks:[
+  {t:'bullets', h:'实践经历', items:[
+    '【社团 / 学生会 / 班级职务，待补】：组织【活动，待补】，参与人数 <b>【X+】</b>。',
+    '【志愿服务 / 社会实践，待补】：累计服务时长 <b>【X 小时】</b>。',
+    '能力收获：【沟通协作 / 项目管理 / 公众表达，待补】。']}
+ ]},
+
+{id:'xiao-shu', n:11, season:'summer', term:'小暑', title:'志愿服务 · 公益实践', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'倏忽温风至，因循小暑来。', src:'元稹《咏廿四气诗·小暑六月节》'},
+ sub:'温风至，蟋蟀居宇 · 如温风般的热忱与善意',
+ blocks:[
+  {t:'bullets', h:'公益与志愿服务', items:[
+    '参与【志愿项目 / 公益活动，待补】，担任【角色，待补】。',
+    '服务【对象群体，待补】<b>【X 人次】</b>，累计时长 <b>【X 小时】</b>。',
+    '收获：【同理心 / 组织力 / 社会责任感，待补】。']}
+ ]},
+
+{id:'da-shu', n:12, season:'summer', term:'大暑', title:'科研训练与课题', quest:'main',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'赤日几时过，清风无处寻。', src:'曾几《大暑》'},
+ sub:'腐草为萤，土润溽暑 · 极盛之热，最投入的耕耘',
+ blocks:[
+  {t:'bullets', h:'科研经历', items:[
+    '加入【导师课题组，待补】，参与【课题方向，待补】研究。',
+    '负责【数据采集 / 实验 / 文献综述，待补】，掌握【研究方法 / 工具，待补】。',
+    '阶段性成果：【调研报告 / 实验数据 / 论文初稿，待补】。']}
+ ]},
+
+/* ── 秋 · 收 ── */
+{id:'li-qiu', n:13, season:'autumn', term:'立秋', title:'获奖与荣誉', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'乳鸦啼散玉屏空，一枕新凉一扇风。', src:'刘翰《立秋》'},
+ sub:'凉风至，白露降 · 一叶知秋，禾谷成熟',
+ blocks:[
+  {t:'bullets', h:'奖项荣誉', items:[
+    '<b>【奖学金名称】</b>　国家级 / 校级　·　【20XX】',
+    '<b>【竞赛名称】</b>　省级 / 国家级奖项　·　【20XX】',
+    '<b>【荣誉称号】</b>（三好学生 / 优秀学生干部 / 优秀团员）　·　【20XX】',
+    '<b>【其他荣誉】</b>　·　【待补】']}
+ ]},
+
+{id:'chu-shu', n:14, season:'autumn', term:'处暑', title:'学科竞赛', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'向来鹰祭鸟，渐觉白藏深。', src:'元稹《咏廿四气诗·处暑七月中》'},
+ sub:'鹰乃祭鸟，天地始肃 · 暑气至此而止，竞技收官',
+ blocks:[
+  {t:'bullets', h:'竞赛经历', items:[
+    '参与【竞赛名称：数学建模 / 蓝桥杯 / 互联网+ / 英语竞赛，待补】，完成【方案 / 作品，待补】。',
+    '在 <b>【X】天</b>高强度备赛中，与团队协作攻克【XX 难点】，获 <b>【奖项 / 名次，待补】</b>。',
+    '沉淀：【团队协作 / 抗压能力 / 快速建模，待补】。']}
+ ]},
+
+{id:'bai-lu', n:15, season:'autumn', term:'白露', title:'证书陈列', quest:'side',
+ status:{text:'已完成', cls:'done'},
+ poem:{line:'露从今夜白，月是故乡明。', src:'杜甫《月夜忆舍弟》'},
+ sub:'鸿雁来，玄鸟归 · 阴气渐重，露凝而白，积累凝结为证',
+ blocks:[
+  {t:'certs', h:'证书陈列 · AI 技能认证（讯飞 / 华为云 / 阿里云）', items:[
+    {name:'Prompt 工程师认证 · 讯飞 AI 大学堂',   img:'证书图片/Ai大学认证证书.png'},
+    {name:'智能体工程师认证 · 讯飞 AI 大学堂',   img:'证书图片/Ai大学认证证书 (1).png'},
+    {name:'微调工程师认证 · 讯飞 AI 大学堂',     img:'证书图片/2.png'},
+    {name:'RAG 工程师认证 · 讯飞 AI 大学堂',     img:'证书图片/3.png'},
+    {name:'Python 基础能力认证 · A14S Cup',      img:'证书图片/certificate.png'},
+    {name:'人工智能初识微认证 · 华为',           img:'证书图片/人工智能初识微认证.png'},
+    {name:'AI 智能语音识别计算器 · 华为云微认证', img:'证书图片/20260725134501.png'},
+    {name:'AI Agent 扑克对战 · 华为云微认证',    img:'证书图片/20260726021500.png'},
+    {name:'RAG 应用构建及优化 · 阿里云',         img:'证书图片/img_3892541f21ab7a7210870f707578a4c5.png'},
+    {name:'VISO 人工智能设计（进阶）· 阿里云',   img:'证书图片/img_ba22cf81d685c0f8750d1ee1cc2ab497.png'},
+    {name:'大模型提升内容生产能力 · 阿里云',     img:'证书图片/img_e2f26f22787e02b42165fc8a90c676ac.png'}]}
+ ]},
+
+{id:'qiu-fen', n:16, season:'autumn', term:'秋分', title:'保研 · 升学计划', quest:'main',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'暑退秋澄转爽凉，日光夜色两均长。', src:'左河水《秋分》'},
+ sub:'雷始收声，蛰虫坯户 · 昼夜均长，明确方向，稳步推进',
+ blocks:[
+  {t:'bullets', h:'目标', items:[
+    '力争通过<b>推免（保研）</b>进入 <b>【目标院校 · 科研方向，待补】</b>，方向倾向 <b>【AI / 专业方向，待补】</b>。']},
+  {t:'progress', pct:38, note:'整体准备进度约 38%（第 1 阶段 · 夯实基础）'},
+  {t:'bullets', h:'分项清单', items:[
+    '<b>绩点排名：</b>当前专业前 <b>【X】%</b>，持续冲刺【目标排名，待补】。',
+    '<b>科研经历：</b>【在研课题 / 大创项目，待补】，积累科研方法与论文写作能力。',
+    '<b>竞赛证书：</b>见「处暑」「白露」板块，持续补齐竞争力。',
+    '<b>英语成绩：</b>CET-4【备考中】。',
+    '<b>暑期科研营 / 目标导师联系：</b>【待补】。']},
+  {t:'stages', h:'推进时间线', items:['阶段 1 · 大二 · 夯实基础','阶段 2 · 大三 · 绩点与科研冲刺','阶段 3 · 大三暑期 · 夏令营','阶段 4 · 大四 · 推免申请'], active:0}
+ ]},
+
+{id:'han-lu', n:17, season:'autumn', term:'寒露', title:'学术成果', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'寒露惊秋晚，朝看菊渐黄。', src:'元稹《咏廿四气诗·寒露九月节》'},
+ sub:'鸿雁来宾，雀入大水为蛤 · 露寒渐浓，理性沉淀',
+ blocks:[
+  {t:'bullets', h:'论文 / 专利 / 软著', items:[
+    '<b>论文：</b>【论文题目，待补】　·　【期刊 / 会议，待补】　·　【作者排序，待补】。',
+    '<b>专利 / 软著：</b>【名称，待补】　·　【授权 / 受理状态，待补】。',
+    '<b>科研训练：</b>【大创项目 / 导师课题组，待补】。']}
+ ]},
+
+{id:'shuang-jiang', n:18, season:'autumn', term:'霜降', title:'里程碑 · 高光时刻', quest:'side',
+ status:{text:'待解锁', cls:'locked'},
+ poem:{line:'停车坐爱枫林晚，霜叶红于二月花。', src:'杜牧《山行》'},
+ sub:'豺乃祭兽，草木黄落 · 霜染红叶，皆是难忘瞬间',
+ blocks:[
+  {t:'timeline', h:'大事记（时间线）', items:[
+    {y:'20XX', t:'【第一个重要节点，待补】'},
+    {y:'20XX', t:'【第一次获奖 / 完成项目，待补】'},
+    {y:'20XX', t:'【高光时刻，待补】'},
+    {y:'20XX', t:'【目标节点：保研，待补】'}]}
+ ]},
+
+/* ── 冬 · 藏 ── */
+{id:'li-dong', n:19, season:'winter', term:'立冬', title:'个人特质', quest:'side',
+ status:{text:'已完成', cls:'done'},
+ poem:{line:'冻笔新诗懒写，寒炉美酒时温。', src:'李白《立冬》'},
+ sub:'水始冰，地始冻 · 向内沉淀，自成体系',
+ blocks:[
+  {t:'bullets', h:'关于我', items:[
+    '<b>逻辑与抽象：</b>INTP 型思维，善于将复杂问题拆解为可执行步骤，习惯「先建框架、再填细节」。',
+    '<b>自学驱动：</b>习惯以资料、工具与 AI 自我驱动成长，对新领域上手快、抗挫折能力强。',
+    '<b>结果导向：</b>重视可量化产出，善用 AI 等杠杆工具放大个人效率，拒绝低效重复。',
+    '<b>好奇与专注：</b>对感兴趣领域保持深度钻研热情，能长时间专注投入。']}
+ ]},
+
+{id:'xiao-xue', n:20, season:'winter', term:'小雪', title:'兴趣爱好', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'花雪随风不厌看，更多还肯失林峦。', src:'戴叔伦《小雪》'},
+ sub:'虹藏不见，天气上升 · 微寒初雪，兴趣为源',
+ blocks:[
+  {t:'kv', h:'兴趣标签', items:['【阅读】','【科技资讯】','【游戏】','【运动】','【AI 前沿】','【待补】']},
+  {t:'bullets', h:'说明', items:[
+    '关注【科技 / AI / 专业领域，待补】，兴趣与专业方向互相滋养。']}
+ ]},
+
+{id:'da-xue', n:21, season:'winter', term:'大雪', title:'自我评价', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'孤舟蓑笠翁，独钓寒江雪。', src:'柳宗元《江雪》'},
+ sub:'鹖鴠不鸣，虎始交 · 至此而雪盛，厚积薄发',
+ blocks:[
+  {t:'bullets', h:'一句话认识我', items:[
+    '兼具 <b>AI 工具素养</b> 与 <b>自主学习能力</b> 的理工科在读生，目标明确：以保研为核心路径，深耕【专业 / AI 方向】。',
+    '<b>执行力与复盘：</b>重视目标拆解与阶段复盘，能持续迭代自我、稳扎稳打。',
+    '<b>价值主张：</b>「用工具撬动效率，用逻辑锚定方向」，把每一份投入都转化为可见的产出。',
+    '【可补充：获奖背书 / 项目代表作 / 他人评价，待补】。']}
+ ]},
+
+{id:'dong-zhi', n:22, season:'winter', term:'冬至', title:'未来规划', quest:'main',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'天时人事日相催，冬至阳生春又来。', src:'杜甫《小至》'},
+ sub:'蚯蚓结，麋角解 · 一阳复始，于积累中等待转机',
+ blocks:[
+  {t:'bullets', h:'短中长期目标', items:[
+    '<b>短期（本科阶段）：</b>夯实专业基础，冲刺绩点与排名，完成【英语 / 科研 / 竞赛】准备，拿下保研资格。',
+    '<b>中期（研究生阶段）：</b>进入【目标实验室，待补】，参与【AI / 专业方向】研究，争取产出【论文 / 专利，待补】。',
+    '<b>长期（学术 / 职业方向）：</b>在【AI / 专业领域，待补】持续深耕，成长为【目标角色，待补】。',
+    '<b>自我期许：</b>像「冬至一阳生」一样，在日复一日的积累中，等待属于自己的转机与回响。']}
+ ]},
+
+{id:'xiao-han', n:23, season:'winter', term:'小寒', title:'核心优势 · 竞争力', quest:'side',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'小寒连大吕，欢鹊垒新巢。', src:'元稹《咏廿四气诗·小寒十二月节》'},
+ sub:'雁北乡，鹊始巢 · 严冬蓄力，为未来筑巢',
+ blocks:[
+  {t:'bullets', h:'我的三点核心竞争力', items:[
+    '<b>① AI 素养：</b>相比同龄人更早、更熟练地拥抱 AI 工具，把「会用工具」变成「用出结果」。',
+    '<b>② 自学能力：</b>不依赖灌输式学习，习惯用目标倒推路径，自主补齐知识与技能短板。',
+    '<b>③ 结果导向：</b>事事有产出、有量化，拒绝「看起来很忙」，追求「看得见的成长」。']}
+ ]},
+
+{id:'da-han', n:24, season:'winter', term:'大寒', title:'长期愿景 · 终章寄语', quest:'main',
+ status:{text:'进行中', cls:'doing'},
+ poem:{line:'不要人夸好颜色，只留清气满乾坤。', src:'王冕《墨梅》'},
+ sub:'鸡始乳，征鸟厉疾 · 岁末收官，四季轮回复始',
+ blocks:[
+  {t:'bullets', h:'愿景与寄语', items:[
+    '本科四年，像二十四节气：有播种的春天，有耕耘的夏天，有收获的秋天，也有沉淀的冬天。',
+    '我的长期愿景：在 <b>【AI / 专业领域，待补】</b> 持续深耕，成长为 <b>【目标角色，待补】</b>，让所学真正创造价值。',
+    '写给未来的自己：不求每一步都闪光，但求每一步都算数。',
+    '（此页可作为简历结尾 · 如需简短可整段删除）']}
+ ]}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   节气文化数据补充：公历日期 / 完整三候（七十二候）/ 物候符号
+   ═══════════════════════════════════════════════════════════ */
+const EXTRA = {
+  'li-chun':     {date:'2月4日',  hou:['东风解冻','蛰虫始振','鱼陟负冰'], motif:'芽'},
+  'yu-shui':     {date:'2月19日', hou:['獭祭鱼','鸿雁来','草木萌动'],     motif:'雨'},
+  'jing-zhe':    {date:'3月6日',  hou:['桃始华','仓庚鸣','鹰化为鸠'],     motif:'雷'},
+  'chun-fen':    {date:'3月21日', hou:['玄鸟至','雷乃发声','始电'],       motif:'燕'},
+  'qing-ming':   {date:'4月5日',  hou:['桐始华','田鼠化为鴽','虹始见'],   motif:'柳'},
+  'gu-yu':       {date:'4月20日', hou:['萍始生','鸣鸠拂其羽','戴胜降于桑'], motif:'桑'},
+  'li-xia':      {date:'5月6日',  hou:['蝼蝈鸣','蚯蚓出','王瓜生'],       motif:'蛙'},
+  'xiao-man':    {date:'5月21日', hou:['苦菜秀','靡草死','麦秋至'],       motif:'麦'},
+  'mang-zhong':  {date:'6月6日',  hou:['螳螂生','鵙始鸣','反舌无声'],     motif:'秧'},
+  'xia-zhi':     {date:'6月21日', hou:['鹿角解','蜩始鸣','半夏生'],       motif:'蝉'},
+  'xiao-shu':    {date:'7月7日',  hou:['温风至','蟋蟀居宇','鹰始挚'],     motif:'蟋'},
+  'da-shu':      {date:'7月23日', hou:['腐草为萤','土润溽暑','大雨时行'], motif:'萤'},
+  'li-qiu':      {date:'8月7日',  hou:['凉风至','白露降','寒蝉鸣'],       motif:'风'},
+  'chu-shu':     {date:'8月23日', hou:['鹰乃祭鸟','天地始肃','禾乃登'],   motif:'禾'},
+  'bai-lu':      {date:'9月8日',  hou:['鸿雁来','玄鸟归','群鸟养羞'],     motif:'露'},
+  'qiu-fen':     {date:'9月23日', hou:['雷始收声','蛰虫坯户','水始涸'],   motif:'月'},
+  'han-lu':      {date:'10月8日', hou:['鸿雁来宾','雀入大水为蛤','菊有黄华'], motif:'菊'},
+  'shuang-jiang':{date:'10月23日',hou:['豺乃祭兽','草木黄落','蛰虫咸俯'], motif:'枫'},
+  'li-dong':     {date:'11月7日', hou:['水始冰','地始冻','雉入大水为蜃'], motif:'冰'},
+  'xiao-xue':    {date:'11月22日',hou:['虹藏不见','天气上升地气下降','闭塞而成冬'], motif:'虹'},
+  'da-xue':      {date:'12月7日', hou:['鹖鴠不鸣','虎始交','荔挺出'],     motif:'雪'},
+  'dong-zhi':    {date:'12月22日',hou:['蚯蚓结','麋角解','水泉动'],       motif:'阳'},
+  'xiao-han':    {date:'1月6日',  hou:['雁北乡','鹊始巢','雉始雊'],       motif:'鹊'},
+  'da-han':      {date:'1月20日', hou:['鸡始乳','征鸟厉疾','水泽腹坚'],   motif:'梅'}
+};
+TERMS.forEach(t=>{ const e=EXTRA[t.id]; if(e){ t.date=e.date; t.hou=e.hou; t.motif=e.motif; } });
+
+/* ═══════════════════════ 渲染与导航 ═══════════════════════ */
+const STACK = [];
+let termNow = null;
+let CERT_IMGS = [];
+let lbIdx = 0;
+
+function cssVarFor(season){ return season ? 'var(--'+season+')' : 'var(--spring)'; }
+function tintFor(season){ return season ? 'var(--'+season+'-tint)' : 'var(--spring-tint)'; }
+
+function questHTML(q){ return q==='main' ? '<span class="quest main">主线任务</span>' : '<span class="quest side">支线任务</span>'; }
+function statusHTML(s){ return '<span class="status '+s.cls+'">'+s.text+'</span>'; }
+
+/* ---- 季节页 · 六节气轮盘渲染 ---- */
+function renderStage(season){
+  const stage = document.querySelector('.stage-ring[data-season="'+season+'"]');
+  const list = TERMS.filter(t=>t.season===season);
+  /* 六节气围绕中心印章排成一圈（顺时针，每 60° 一个） */
+  let html = list.map((t,i)=>{
+    return '<button class="tile" style="--sc:var(--'+season+'); --a:'+(i*60)+'deg;" onclick="showTerm(\''+t.id+'\')">'
+      + statusHTML(t.status)
+      + '<span class="t-seal">'+t.term+'</span>'
+      + '<span class="t-title">'+t.title+'</span>'
+      + questHTML(t.quest)
+      + '<span class="t-sub">'+t.sub+'</span>'
+      + '<span class="t-go">进入此板块 ›</span>'
+      + '<span class="t-motif">'+(t.motif||'')+'</span>'
+      + '</button>';
+  }).join('');
+  const S = SEASONS[season];
+  html += '<div class="tile-seal" style="--sc:var(--'+season+'); --sc-deep:var(--'+season+'-deep);">'
+    + '<span class="seal-char">'+S.name+'</span>'
+    + '<span class="seal-word">'+S.sub+' · 六节气</span>'
+    + '<span class="seal-motto">'+S.motto+'</span>'
+    + '</div>';
+  /* 节气间隙的季节物候徽章（每两个节气之间 30° 位置） */
+  html += GLYPHS[season].map((ch,i)=>{
+    const a = i*60 + 30;
+    return '<span class="t-deco" style="--sc:var(--'+season+'); --a:'+a+'deg;">'+ch+'</span>';
+  }).join('');
+  stage.innerHTML = html;
+
+  /* 本季状态统计 */
+  const done = list.filter(t=>t.status.cls==='done').length;
+  const doing = list.filter(t=>t.status.cls==='doing').length;
+  const locked = list.filter(t=>t.status.cls==='locked').length;
+  document.getElementById('cnt-'+season).innerHTML =
+    '<i class="c-done">✔ 已完成 '+done+'</i><i class="c-doing">● 进行中 '+doing+'</i><i class="c-lock">○ 待解锁 '+locked+'</i>';
+
+  /* 右侧竖排三候（用节气初候，更符合物候） */
+  const vs = document.querySelector('.v-strip[data-vs="'+season+'"]');
+  const sanhou = list.map(t=>t.term+'·'+(t.hou[0]||'')).join('　');
+  vs.innerHTML = S.name+' · '+S.sub+'　' + sanhou + '　——　'+S.motto;
+}
+
+/* ---- 总览地图 ---- */
+function renderMap(){
+  const grid = document.getElementById('mapGrid');
+  grid.innerHTML = ['spring','summer','autumn','winter'].map(s=>{
+    const S = SEASONS[s];
+    const items = TERMS.filter(t=>t.season===s).map(t=>{
+      return '<button class="mterm" style="--sc:var(--'+s+')" onclick="showTerm(\''+t.id+'\')">'
+        + '<span class="mseal">'+t.term+'</span>'
+        + '<span class="mname">'+t.title+'</span>'
+        + '<span class="mtitle">第 '+t.n+' 节气 · 约'+(t.date||'')+'</span>'
+        + '</button>';
+    }).join('');
+    return '<div class="map-col"><h3><span class="mc-char" style="color:var(--'+s+'-deep)">'+S.name+'</span>'+S.name+' · '+S.sub+'</h3>'+items+'</div>';
+  }).join('');
+}
+
+/* ---- 节气详情页 ---- */
+function blockHTML(b){
+  switch(b.t){
+    case 'kv':
+      return '<div class="block"><div class="bt">'+b.h+'</div><div class="kv">'
+        + b.items.map(x=>'<span>'+x+'</span>').join('') + '</div></div>';
+    case 'bullets':
+      return '<div class="block"><div class="bt">'+b.h+'</div><ul class="dots">'
+        + b.items.map(x=>'<li>'+x+'</li>').join('') + '</ul></div>';
+    case 'certs':
+      return '<div class="block"><div class="bt">'+b.h+'</div><div class="cert-grid">'
+        + b.items.map((c,i)=>{
+            if(!c.img){ return '<div class="cert-slot"><div class="cert-img">证书图片 '+(i+1)+'</div><div class="cert-name">'+c.name+'</div></div>'; }
+            CERT_IMGS.push({src:c.img, name:c.name});
+            const li = CERT_IMGS.length-1;
+            return '<div class="cert-slot"><div class="cert-img" onclick="openLightbox('+li+')">'
+              + '<img src="'+c.img+'" alt="'+c.name+'" loading="lazy">'
+              + '<span class="zoom-hint">🔍 点击放大</span>'
+              + '</div><div class="cert-name">'+c.name+'</div></div>';
+          }).join('')
+        + '</div></div>';
+    case 'progress':
+      return '<div class="block"><div class="bt">当前进度</div><div class="progress"><i style="width:'+b.pct+'%"></i></div>'
+        + '<p style="font-size:12.5px; color:var(--muted); margin-top:6px;">'+b.note+'</p></div>';
+    case 'stages':
+      return '<div class="block"><div class="bt">'+b.h+'</div><div class="stages">'
+        + b.items.map((s,i)=>'<div class="stage'+(i===b.active?' active':'')+'"><span class="st-no">'+s+'</span></div>').join('')
+        + '</div></div>';
+    case 'timeline':
+      return '<div class="block"><div class="bt">'+b.h+'</div><div class="timeline">'
+        + b.items.map(x=>'<div class="tl-item"><b>'+x.y+'</b><span>'+x.t+'</span></div>').join('')
+        + '</div></div>';
+    default: return '';
+  }
+}
+
+function renderTerm(id){
+  const t = TERMS.find(x=>x.id===id) || TERMS[0];
+  termNow = t;
+  CERT_IMGS = [];
+  const sc = t.season;
+  const h = '<div class="t-topbar">'
+    + '<button class="btn" onclick="back()">← 返回季节</button>'
+    + '<button class="btn ghost" onclick="go(\'s-map\')">节气总览</button>'
+    + '<button class="btn ghost" onclick="go(\'s-home\')">首页</button>'
+    + '<span class="sp"></span>'
+    + '<span class="t-count">二十四节气 · 第 '+t.n+' 个</span>'
+    + '</div>'
+    + '<div class="t-body-wrap">'
+    +   '<div class="t-ring"></div>'
+    +   '<div class="t-wm">'+(t.motif||'')+'</div>'
+    +   '<span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>'
+    +   '<div class="t-card">'
+    + '<div class="t-head">'
+    +   '<div class="t-seal-big" style="--sc:var(--'+sc+'); background:var(--'+sc+');">'+t.term+'</div>'
+    +   '<div><div class="t-kicker">'+SEASONS[sc].name+' · '+SEASONS[sc].sub+'　｜　公历约 '+(t.date||'')+' · 一年第 '+t.n+' 个节气</div>'
+    +   '<h2 class="t-title">'+t.title+' '+questHTML(t.quest)+' '+statusHTML(t.status)+'</h2>'
+    +   '<div class="t-sub">'+t.sub+'</div></div>'
+    + '</div>'
+    + '<div class="t-poem"><div class="line">「 '+t.poem.line+' 」</div><span class="src">—— '+t.poem.src+'</span><span class="hou-line">三候 · '+t.hou.join(' · ')+'</span><span class="poem-seal">'+t.term+'</span></div>'
+    + t.blocks.map(blockHTML).join('')
+    + '</div></div>'
+    + '<div class="t-nav">'
+    +   '<button class="btn" onclick="termPrev()">◀ 上一节气</button>'
+    +   '<div class="ydots">' + TERMS.map(t2=>{
+          return '<i class="yd s-'+t2.season+' '+(t2.id===t.id?'yd-on':'')+'" title="'+t2.term+' '+(t2.date||'')+'"></i>';
+        }).join('') + '</div>'
+    +   '<button class="btn" onclick="termNext()">下一节气 ▶</button>'
+    + '</div>';
+  const el = document.getElementById('s-term');
+  el.style.setProperty('--sc', cssVarFor(sc));
+  el.style.setProperty('--sc-t', tintFor(sc));
+  el.style.setProperty('--ring-c', cssVarFor(sc));
+  el.innerHTML = h;
+}
+
+/* ---- 页面切换 ---- */
+function activate(id){
+  document.querySelectorAll('.slide').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById(id);
+  void el.offsetWidth;               /* 强制重排，保证入场动画 */
+  el.classList.add('active');
+
+  if(id==='s-term'){ document.body.dataset.season = termNow ? termNow.season : 'home'; }
+  else if(id==='s-spring'){ document.body.dataset.season='spring'; }
+  else if(id==='s-summer'){ document.body.dataset.season='summer'; }
+  else if(id==='s-autumn'){ document.body.dataset.season='autumn'; }
+  else if(id==='s-winter'){ document.body.dataset.season='winter'; }
+  else { document.body.dataset.season = 'home'; }
+}
+function go(id){ STACK.push(id); activate(id); }
+function back(){
+  if(STACK.length>1){ STACK.pop(); activate(STACK[STACK.length-1]); }
+  else activate('s-home');
+}
+function navSeason(s){ go('s-'+s); }
+function showTerm(id){ renderTerm(id); go('s-term'); }
+function termNext(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=TERMS[(i+1)%TERMS.length].id; renderTerm(n); activate('s-term'); }
+function termPrev(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=TERMS[(i+TERMS.length-1)%TERMS.length].id; renderTerm(n); activate('s-term'); }
+
+/* ---- 证书灯箱 ---- */
+function openLightbox(i){
+  lbIdx = i; renderLB();
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+function renderLB(){
+  const c = CERT_IMGS[lbIdx];
+  if(!c) return;
+  document.getElementById('lbImg').src = c.src;
+  document.getElementById('lbCap').textContent = c.name;
+  document.getElementById('lbCount').textContent = (lbIdx+1)+' / '+CERT_IMGS.length;
+}
+function lbPrev(e){ if(e) e.stopPropagation(); lbIdx=(lbIdx+CERT_IMGS.length-1)%CERT_IMGS.length; renderLB(); }
+function lbNext(e){ if(e) e.stopPropagation(); lbIdx=(lbIdx+1)%CERT_IMGS.length; renderLB(); }
+
+/* ---- 键盘 ---- */
+document.addEventListener('keydown',e=>{
+  const lb = document.getElementById('lightbox');
+  if(lb.classList.contains('open')){
+    if(e.key==='Escape') closeLightbox();
+    else if(e.key==='ArrowRight') lbNext();
+    else if(e.key==='ArrowLeft') lbPrev();
+    return;
+  }
+  if(e.key==='Escape'){ back(); }
+  else if(e.key==='ArrowRight'){ if(termNow) termNext(); }
+  else if(e.key==='ArrowLeft'){ if(termNow) termPrev(); }
+});
+
+/* ---- 飘落装饰 ---- */
+function seedFX(){
+  const box = document.getElementById('fx-box');
+  for(let i=0;i<28;i++){
+    const p=document.createElement('span');
+    p.className='fx';
+    const sz=5+Math.random()*13;
+    p.style.width=sz+'px'; p.style.height=sz+'px';
+    p.style.left=(Math.random()*100)+'vw';
+    p.style.animationDuration=(9+Math.random()*11)+'s';
+    p.style.animationDelay=(Math.random()*12)+'s';
+    p.style.opacity=(0.2+Math.random()*0.35).toFixed(2);
+    box.appendChild(p);
+  }
+  const set=()=>{ document.body.style.setProperty('--fx', cssVarFor(document.body.dataset.season)); };
+  set();
+  new MutationObserver(set).observe(document.body,{attributes:true,attributeFilter:['data-season']});
+}
+
+/* ---- 启动 ---- */
+renderStage('spring'); renderStage('summer'); renderStage('autumn'); renderStage('winter');
+renderMap(); seedFX();
+STACK.push('s-home');
+</script>
+</body>
+</html>

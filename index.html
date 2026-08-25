@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首页 · 李赵赫 · 个人网站</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+</head>
+<body class="season-spring">
+<div id="fx-box"></div>
+<header class="site-header">
+  <div class="site-nav">
+    <a class="site-logo" href="index.html">李<b>赵</b>赫 <span style="font-size:13px;color:var(--muted);font-family:var(--kai);">· 个人网站</span></a>
+    <button class="nav-toggle" aria-label="菜单">☰</button>
+    <nav class="nav-links">
+      <a class="nav-link" href="index.html">首页</a>
+      <a class="nav-link" href="resume.html">简历</a>
+      <a class="nav-link" href="projects.html">项目</a>
+      <a class="nav-link" href="certificates.html">证书</a>
+      <a class="nav-link" href="about.html">关于</a>
+      <a class="nav-link" href="contact.html">联系</a>
+    </nav>
+  </div>
+</header>
+<main class="page">
+  <div class="page-hero">
+    <div class="hero-stamp">李赵赫</div>
+    <h1>四季流转 · 以节气记录成长</h1>
+    <p class="hero-sub">青岛农业大学 · 农业资源与环境 · 目标保研（推免） · AI 爱好者</p>
+    <div class="hero-tags"><span class="tag">男</span><span class="tag">INTP</span><span class="tag">自学驱动</span><span class="tag">结果导向</span></div>
+  </div>
+  <section class="section">
+    <div class="section-head"><h2 class="section-title sc-spring">四季节气 · 简历入口</h2><span class="section-sub">点击四季之门，进入我的成长脉络</span></div>
+    <div class="grid grid-4">
+      <a class="season-gate gate-spring" data-c="春" href="about.html"><span class="g-char">春</span><span class="g-name">生</span><span class="g-sub">萌芽与积累</span></a>
+      <a class="season-gate gate-summer" data-c="夏" href="projects.html"><span class="g-char">夏</span><span class="g-name">长</span><span class="g-sub">生长与拼搏</span></a>
+      <a class="season-gate gate-autumn" data-c="秋" href="certificates.html"><span class="g-char">秋</span><span class="g-name">收</span><span class="g-sub">成果与荣誉</span></a>
+      <a class="season-gate gate-winter" data-c="冬" href="resume.html"><span class="g-char">冬</span><span class="g-name">藏</span><span class="g-sub">沉淀与展望</span></a>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-head"><h2 class="section-title sc-autumn">三个关键词</h2><span class="section-sub">快速了解我</span></div>
+    <div class="grid grid-3">
+      <div class="card sc-spring reveal"><div class="card-title">AI 兴趣</div><div class="card-sub">春分 · 技术探索</div><p>长期关注人工智能与大模型前沿，熟练运用 AI 工具辅助学习、写作与开发，践行「人机协作」工作流。</p></div>
+      <div class="card sc-summer reveal"><div class="card-title">11 项 AI 技能认证</div><div class="card-sub">白露 · 积累凝结为证</div><p>已在讯飞 / 华为云 / 阿里云等平台累计取得 11 项 AI 技能认证（Prompt / RAG / Agent / 微调工程师等）。</p></div>
+      <div class="card sc-autumn reveal"><div class="card-title">保研 · 推免目标</div><div class="card-sub">秋分 · 昼夜均长</div><p>以推免（保研）为核心路径，愿在「AI + 农业资源与环境」的交叉方向持续深耕。</p></div>
+    </div>
+    <div style="text-align:center; margin-top:34px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+      <a class="btn primary" href="resume.html">查看完整交互简历</a>
+      <a class="btn ghost" href="contact.html">联系我</a>
+    </div>
+  </section>
+</main>
+<footer class="site-footer">
+  <div class="f-quote">「 不要人夸好颜色，只留清气满乾坤 」</div>
+  <div class="f-links">
+    <a href="index.html">首页</a>
+    <a href="resume.html">简历</a>
+    <a href="projects.html">项目</a>
+    <a href="certificates.html">证书</a>
+    <a href="about.html">关于</a>
+    <a href="contact.html">联系</a>
+  </div>
+  <p style="margin-top:12px;">李赵赫 · 青岛农业大学 · 农业资源与环境 · 目标保研（推免）</p>
+  <p style="margin-top:6px;">© 2026 李赵赫 · 四季 · 二十四节气个人网站</p>
+</footer>
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)this.classList.remove('open')">
+  <button class="lb-close" onclick="document.getElementById('lightbox').classList.remove('open')" aria-label="关闭">✕</button>
+  <button class="lb-nav lb-prev" aria-label="上一张">‹</button>
+  <div class="lb-stage">
+    <img id="lbImg" src="" alt="证书大图">
+    <div class="lb-cap" id="lbCap"></div>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+  <button class="lb-nav lb-next" aria-label="下一张">›</button>
+</div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
