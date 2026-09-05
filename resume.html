@@ -204,6 +204,12 @@ body[data-season="home"] .fx, body[data-season="map"] .fx, body[data-season="gui
 .tile:hover .t-go{opacity:1; transform:none;}
 .tile .t-motif{position:absolute; right:6px; bottom:0; font-family:var(--kai); font-size:40px; line-height:1; color:var(--sc,#999); opacity:.08; pointer-events:none;}
 
+/* 待解锁板块：淡化、不可进 */
+.tile.locked{opacity:.72; filter:saturate(.85); cursor:default;}
+.tile.locked:hover{transform:var(--base); box-shadow:0 4px 12px rgba(0,0,0,.06);}
+.tile.locked:hover .t-seal{transform:none;}
+.tile.locked .t-go{opacity:1; transform:none; color:var(--muted);}
+
 /* 轮盘中心印章 */
 .tile-seal{
   background:radial-gradient(circle at 30% 22%, color-mix(in srgb, var(--sc,#999) 72%, #fff) 0%, var(--sc-deep,#555) 78%);
@@ -231,6 +237,14 @@ body[data-season="home"] .fx, body[data-season="map"] .fx, body[data-season="gui
 .t-wm{position:absolute; right:6%; top:6%; font-family:var(--xing); font-size:150px; line-height:1; color:var(--ring-c,#ccc); opacity:.04; pointer-events:none; z-index:0; transform:rotate(8deg);}
 .t-body-wrap::-webkit-scrollbar{width:8px;}
 .t-body-wrap::-webkit-scrollbar-thumb{background:#D8D0BC; border-radius:8px;}
+/* 节气内容"文字框"：四角饰贴合内容四角，把文字框起来 */
+.t-frame{position:relative; max-width:920px; margin:0 auto; padding:2px;}
+.t-frame .t-card{max-width:920px; margin:0; padding-top:22px;}
+.t-frame .orn{width:26px; height:26px;}
+.t-frame .orn.tl{top:-2px; left:-2px;}
+.t-frame .orn.tr{top:-2px; right:-2px;}
+.t-frame .orn.bl{bottom:-2px; left:-2px;}
+.t-frame .orn.br{bottom:-2px; right:-2px;}
 .t-card{max-width:920px; margin:0 auto; position:relative; z-index:1;}
 .t-head{display:flex; align-items:center; gap:18px;}
 .t-seal-big{
@@ -635,13 +649,14 @@ const TERMS = [
  sub:'东风解冻，蛰虫始振 · 岁首启程',
  blocks:[
   {t:'bullets', h:'个人信息', items:[
-    '姓名：李赵赫　｜　性别：男　｜　MBTI：INTP（逻辑学家型）',
-    '院校：青岛农业大学（本科在读）　｜　学院专业：农业资源与环境',
+    '姓名：李赵赫　｜　性别：男　｜　MBTI：INTP',
+    '院校：青岛农业大学（本科在读）',
+    '学院专业：农业资源与环境',
     '电话：19031017128　｜　微信：lzh5186933',
     '邮箱：19031017128@163.com']},
   {t:'bullets', h:'目标方向', items:[
-    '核心目标：通过<b>推免（保研）</b>进入<b>中国农业大学</b>，深耕【科研方向，待补】。',
-    '兴趣方向：人工智能 / 【专业相关方向，待补】，善用 AI 工具放大学习与产出效率。']}
+    '核心目标：通过<b>推免（保研）</b>进入<b>中国农业大学</b>，深耕「AI + 农业」交叉方向。',
+    '兴趣方向：AI + 农业，愿用人工智能为土地与粮食带来改变。']}
  ]},
 
 {id:'yu-shui', n:2, season:'spring', term:'雨水', title:'教育背景', quest:'main',
@@ -663,11 +678,11 @@ const TERMS = [
  poem:{line:'微雨众卉新，一雷惊蛰始。', src:'韦应物《观田家》'},
  sub:'桃始华，仓庚鸣 · 一雷惊万物，能力觉醒',
  blocks:[
-  {t:'kv', h:'技能标签', items:['Python','C / C++','SQL','Pandas / NumPy','Matplotlib','Word / PPT / Excel','CET-4【备考中】','AI 工具（ChatGPT / Claude / Cursor / Kimi）']},
+  {t:'kv', h:'技能标签', items:['Python','Word / PPT / Excel']},
   {t:'bullets', h:'能力描述', items:[
-    '<b>AI 工具素养：</b>熟练运用主流大模型与 AI 编程 / 办公工具辅助学习、写作与开发，显著提升个人产出效率。',
+    '<b>AI 工具素养：</b>略懂主流大模型与 AI 编程 / 办公工具，能用来辅助学习、写作与开发。',
     '<b>自主学习力：</b>习惯以资料、文档与工具驱动自我提升，新工具 / 新领域上手快。',
-    '<b>表达与交付：</b>可独立完成高质量报告与汇报 PPT，注重逻辑清晰与结果落地。']}
+    '<b>表达与交付：</b>正在学习制作高质量报告与汇报 PPT，注重逻辑清晰与结果落地。']}
  ]},
 
 {id:'chun-fen', n:4, season:'spring', term:'春分', title:'AI 兴趣与技术探索', quest:'side',
@@ -676,11 +691,11 @@ const TERMS = [
  sub:'玄鸟至，雷乃发声 · 昼夜均平，好奇与专注均衡生长',
  blocks:[
   {t:'bullets', h:'兴趣与实践', items:[
-    '长期关注人工智能、大模型前沿动态，主动追踪行业技术与论文【待补】，保持技术敏感度。',
-    '熟练运用 AI 工具辅助学习与产出：覆盖代码调试、文献阅读、文档撰写、PPT 制作等场景，产出效率提升约 <b>【X%】</b>。',
-    '践行「人机协作」工作流：将 AI 作为效率杠杆，压缩重复劳动时间约 <b>【X%】</b>。',
-    '规划系统学习【机器学习 / 深度学习 / 自然语言处理，待补】，为保研科研方向做知识储备。',
-    '已尝试的 AI 实践：【AI 简历优化 / 学习计划管理 / 自动化脚本，待补】。']}
+    '长期关注人工智能、大模型前沿动态，主动追踪行业技术与论文，保持技术敏感度。',
+    '略懂运用 AI 工具辅助学习与产出：覆盖代码调试、文献阅读、文档撰写、PPT 制作等场景。',
+    '践行「人机协作」工作流，把 AI 当作辅助自己学习与做事的小工具。',
+    '规划系统学习【机器学习 / 深度学习 / 自然语言处理】，为保研科研方向做知识储备。',
+    '想要尝试的 AI 实践：【AI 简历优化 / 学习计划管理 / 自动化脚本】。']}
  ]},
 
 {id:'qing-ming', n:5, season:'spring', term:'清明', title:'学习与方法论', quest:'side',
@@ -689,9 +704,8 @@ const TERMS = [
  sub:'桐始华，田鼠化鴽 · 清明澄澈，源头活水',
  blocks:[
   {t:'bullets', h:'学习方法', items:[
-    '习惯「先框架、后细节」：用思维导图 + 复盘笔记沉淀知识体系，学习效率提升约 <b>【X%】</b>。',
-    '时间管理：以四象限与阶段性目标拆解任务，平衡学业、科研与兴趣投入。',
-    '信息素养：善用 AI 与搜索引擎完成高效检索与过滤，形成「输入 → 消化 → 输出」闭环。',
+    '尝试用「先框架、后细节」：思维导图 + 复盘笔记沉淀知识体系。',
+    '信息素养：想要通过 AI 与搜索引擎完成高效检索与过滤，形成「输入 → 消化 → 输出」的闭环。',
     '待补充：【在校学习荣誉 / 学习笔记 / 学习成果，待补】。']}
  ]},
 
@@ -701,10 +715,8 @@ const TERMS = [
  sub:'萍始生，鸣鸠拂其羽 · 雨生百谷，日积月累',
  blocks:[
   {t:'bullets', h:'自学版图', items:[
-    '课外自学【编程 / 数据分析 / AI 应用，待补】，弥补课程之外的能力版图。',
-    '通过在线课程 / 开源社区持续输入，累计完成 <b>【X 门 / X 小时】</b>系统学习。',
-    '自学成果：【完成的小工具 / 笔记库 / 博客，待补】。',
-    '待补充：【待补】。']}
+    '课外自学【编程 / 数据分析 / AI 应用】，弥补课程之外的能力版图。',
+    '自学成果：完成自我简历 —— 用自学与 AI 辅助，一点一点做出这份个人简历。']}
  ]},
 
 /* ── 夏 · 长 ── */
@@ -828,12 +840,6 @@ const TERMS = [
  blocks:[
   {t:'bullets', h:'目标', items:[
     '力争通过<b>推免（保研）</b>进入<b>中国农业大学</b>，方向倾向「AI + 农业资源与环境」的交叉方向。']},
-  {t:'bullets', h:'分项清单', items:[
-    '<b>绩点排名：</b>当前专业前 <b>【X】%</b>，持续冲刺【目标排名，待补】。',
-    '<b>科研经历：</b>【在研课题 / 大创项目，待补】，积累科研方法与论文写作能力。',
-    '<b>竞赛证书：</b>见「处暑」「白露」板块，持续补齐竞争力。',
-    '<b>英语成绩：</b>CET-4【备考中】。',
-    '<b>暑期科研营 / 目标导师联系：</b>【待补】。']},
   {t:'stages', h:'推进时间线', items:['阶段 1 · 大二 · 夯实基础','阶段 2 · 大三 · 绩点与科研冲刺','阶段 3 · 大三暑期 · 夏令营','阶段 4 · 大四 · 推免申请'], active:0}
  ]},
 
@@ -869,7 +875,7 @@ const TERMS = [
   {t:'bullets', h:'关于我', items:[
     '<b>逻辑与抽象：</b>INTP 型思维，善于将复杂问题拆解为可执行步骤，习惯「先建框架、再填细节」。',
     '<b>自学驱动：</b>习惯以资料、工具与 AI 自我驱动成长，对新领域上手快、抗挫折能力强。',
-    '<b>结果导向：</b>重视可量化产出，善用 AI 等杠杆工具放大个人效率，拒绝低效重复。',
+    '<b>结果导向：</b>重视可量化产出，略懂使用 AI 等工具来提升个人效率，拒绝低效重复。',
     '<b>好奇与专注：</b>对感兴趣领域保持深度钻研热情，能长时间专注投入。']}
  ]},
 
@@ -878,9 +884,9 @@ const TERMS = [
  poem:{line:'花雪随风不厌看，更多还肯失林峦。', src:'戴叔伦《小雪》'},
  sub:'虹藏不见，天气上升 · 微寒初雪，兴趣为源',
  blocks:[
-  {t:'kv', h:'兴趣标签', items:['【阅读】','【科技资讯】','【游戏】','【运动】','【AI 前沿】','【待补】']},
+  {t:'kv', h:'兴趣标签', items:['【阅读】','【科技资讯】','【游戏】','【运动】','【AI 前沿】']},
   {t:'bullets', h:'说明', items:[
-    '关注【科技 / AI / 专业领域，待补】，兴趣与专业方向互相滋养。']}
+    '关注科技 / AI / 专业领域，兴趣与专业方向互相滋养。']}
  ]},
 
 {id:'da-xue', n:21, season:'winter', term:'大雪', title:'自我评价', quest:'side',
@@ -891,8 +897,7 @@ const TERMS = [
   {t:'bullets', h:'一句话认识我', items:[
     '兼具 <b>AI 工具素养</b> 与 <b>自主学习能力</b> 的理工科在读生，目标明确：以保研为核心路径，深耕【专业 / AI 方向】。',
     '<b>执行力与复盘：</b>重视目标拆解与阶段复盘，能持续迭代自我、稳扎稳打。',
-    '<b>价值主张：</b>「用工具撬动效率，用逻辑锚定方向」，把每一份投入都转化为可见的产出。',
-    '【可补充：获奖背书 / 项目代表作 / 他人评价，待补】。']}
+    '<b>价值主张：</b>「用工具撬动效率，用逻辑锚定方向」，把每一份投入都转化为可见的产出。']}
  ]},
 
 {id:'dong-zhi', n:22, season:'winter', term:'冬至', title:'未来规划', quest:'main',
@@ -902,8 +907,8 @@ const TERMS = [
  blocks:[
   {t:'bullets', h:'短中长期目标', items:[
     '<b>短期（本科阶段）：</b>夯实专业基础，冲刺绩点与排名，完成【英语 / 科研 / 竞赛】准备，拿下保研资格。',
-    '<b>中期（研究生阶段）：</b>进入【目标实验室，待补】，参与【AI / 专业方向】研究，争取产出【论文 / 专利，待补】。',
-    '<b>长期（学术 / 职业方向）：</b>在【AI / 专业领域，待补】持续深耕，成长为【目标角色，待补】。',
+    '<b>中期（研究生阶段）：</b>进入【目标实验室】，参与【AI / 专业方向】研究，争取产出【论文 / 专利】。',
+    '<b>长期（学术 / 职业方向）：</b>在【AI / 专业领域】持续深耕，成长为想成为的那个人。',
     '<b>自我期许：</b>像「冬至一阳生」一样，在日复一日的积累中，等待属于自己的转机与回响。']}
  ]},
 
@@ -925,7 +930,7 @@ const TERMS = [
  blocks:[
   {t:'bullets', h:'愿景与寄语', items:[
     '本科四年，像二十四节气：有播种的春天，有耕耘的夏天，有收获的秋天，也有沉淀的冬天。',
-    '我的长期愿景：在 <b>【AI / 专业领域，待补】</b> 持续深耕，成长为 <b>【目标角色，待补】</b>，让所学真正创造价值。',
+    '我的长期愿景：在 <b>【AI / 专业领域】</b> 持续深耕，成长为想成为的那个人，让所学真正创造价值。',
     '写给未来的自己：不求每一步都闪光，但求每一步都算数。',
     '（此页可作为简历结尾 · 如需简短可整段删除）']}
  ]}
@@ -980,13 +985,14 @@ function renderStage(season){
   const list = TERMS.filter(t=>t.season===season);
   /* 六节气围绕中心印章排成一圈（顺时针，每 60° 一个） */
   let html = list.map((t,i)=>{
-    return '<button class="tile" style="--sc:var(--'+season+'); --a:'+(i*60)+'deg;" onclick="showTerm(\''+t.id+'\')">'
+    const lk = isLocked(t);
+    return '<button class="tile'+(lk?' locked':'')+'" style="--sc:var(--'+season+'); --a:'+(i*60)+'deg;" onclick="showTerm(\''+t.id+'\')">'
       + statusHTML(t.status)
       + '<span class="t-seal">'+t.term+'</span>'
       + '<span class="t-title">'+t.title+'</span>'
       + questHTML(t.quest)
       + '<span class="t-sub">'+t.sub+'</span>'
-      + '<span class="t-go">进入此板块 ›</span>'
+      + '<span class="t-go">'+(lk?'待解锁 · 敬请期待':'进入此板块 ›')+'</span>'
       + '<span class="t-motif">'+(t.motif||'')+'</span>'
       + '</button>';
   }).join('');
@@ -1083,8 +1089,9 @@ function renderTerm(id){
     + '<div class="t-body-wrap">'
     +   '<div class="t-ring"></div>'
     +   '<div class="t-wm">'+(t.motif||'')+'</div>'
-    +   '<span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>'
-    +   '<div class="t-card">'
+    +   '<div class="t-frame">'
+    +     '<span class="orn tl"></span><span class="orn tr"></span><span class="orn bl"></span><span class="orn br"></span>'
+    +     '<div class="t-card">'
     + '<div class="t-head">'
     +   '<div class="t-seal-big" style="--sc:var(--'+sc+'); background:var(--'+sc+');">'+t.term+'</div>'
     +   '<div><div class="t-kicker">'+SEASONS[sc].name+' · '+SEASONS[sc].sub+'　｜　公历约 '+(t.date||'')+' · 一年第 '+t.n+' 个节气</div>'
@@ -1093,7 +1100,9 @@ function renderTerm(id){
     + '</div>'
     + '<div class="t-poem"><div class="line">「 '+t.poem.line+' 」</div><span class="src">—— '+t.poem.src+'</span><span class="hou-line">三候 · '+t.hou.join(' · ')+'</span><span class="poem-seal">'+t.term+'</span></div>'
     + t.blocks.map(blockHTML).join('')
-    + '</div></div>'
+    +     '</div>'
+    +   '</div>'
+    + '</div>'
     + '<div class="t-nav">'
     +   '<button class="btn" onclick="termPrev()">◀ 上一节气</button>'
     +   '<div class="ydots">' + TERMS.map(t2=>{
@@ -1128,9 +1137,34 @@ function back(){
   else activate('s-home');
 }
 function navSeason(s){ go('s-'+s); }
-function showTerm(id){ renderTerm(id); go('s-term'); }
-function termNext(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=TERMS[(i+1)%TERMS.length].id; renderTerm(n); activate('s-term'); }
-function termPrev(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=TERMS[(i+TERMS.length-1)%TERMS.length].id; renderTerm(n); activate('s-term'); }
+function isLocked(t){ return t && t.status && t.status.cls==='locked'; }
+function lockedNote(){
+  var t=document.getElementById('lockToast');
+  if(!t){
+    t=document.createElement('div'); t.id='lockToast';
+    t.style.cssText='position:fixed;left:50%;bottom:44px;transform:translateX(-50%);background:rgba(20,20,18,.88);color:#fff;padding:10px 20px;border-radius:26px;font-size:14px;z-index:300;box-shadow:0 8px 26px rgba(0,0,0,.3);transition:opacity .3s;pointer-events:none;white-space:nowrap;';
+    document.body.appendChild(t);
+  }
+  t.textContent='🔒 该板块尚未解锁 · 内容完善中，敬请期待';
+  t.style.opacity='1';
+  clearTimeout(t._tt);
+  t._tt=setTimeout(function(){ t.style.opacity='0'; },1500);
+}
+function showTerm(id){
+  const tt=TERMS.find(x=>x.id===id);
+  if(isLocked(tt)){ lockedNote(); return; }
+  renderTerm(id); go('s-term');
+}
+function nextOpen(i,dir){
+  const L=TERMS.length;
+  for(let s=1;s<L;s++){
+    const j=(i+dir*s+L)%L;
+    if(!isLocked(TERMS[j])) return TERMS[j];
+  }
+  return null;
+}
+function termNext(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=nextOpen(i,1); if(n){ renderTerm(n.id); activate('s-term'); } }
+function termPrev(){ const i=TERMS.findIndex(t=>t.id===termNow.id); const n=nextOpen(i,-1); if(n){ renderTerm(n.id); activate('s-term'); } }
 
 /* ---- 证书灯箱 ---- */
 function openLightbox(i){
@@ -1187,6 +1221,12 @@ function seedFX(){
 renderStage('spring'); renderStage('summer'); renderStage('autumn'); renderStage('winter');
 renderMap(); seedFX();
 STACK.push('s-home');
+
+/* 深链：#spring/#summer/#autumn/#winter → 直达对应季节板块 */
+(function(){
+  var m = location.hash.match(/#(spring|summer|autumn|winter)/i);
+  if(m){ setTimeout(function(){ go('s-'+m[1].toLowerCase()); }, 150); }
+})();
 </script>
 </body>
 </html>
