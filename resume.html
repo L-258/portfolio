@@ -353,6 +353,83 @@ code{background:#F1EAD8; border-radius:5px; padding:1px 7px; font-size:12.5px; c
   .season-stage,.slide-scroll,.t-body-wrap,.shead{padding-left:16px; padding-right:16px;}
 }
 
+/* ---------- 手机适配（≤560px） ---------- */
+@media (max-width:560px){
+  body{overflow:hidden;}
+  /* 首页 */
+  .home-wrap{padding:20px 14px 30px; justify-content:flex-start;}
+  .home-tag{font-size:11px; padding:4px 13px; margin-bottom:14px; letter-spacing:3px;}
+  .myname{font-size:58px; letter-spacing:5px;}
+  .stamp{font-size:17px; letter-spacing:5px; padding:3px 14px; margin-top:6px;}
+  .home-sub{font-size:13.5px; margin-top:10px;}
+  .home-contact{font-size:12px; line-height:1.9;}
+  .gates{gap:12px; margin-top:22px;}
+  .gate{width:min(46vw,158px); height:auto; aspect-ratio:4/5; padding:14px 8px;}
+  .gate .g-char{font-size:52px; margin-top:2px;}
+  .gate .g-name{font-size:19px;}
+  .gate .g-sub{font-size:11px;}
+  .home-links{margin-top:10px; gap:8px;}
+  .home-links .btn{font-size:13px; padding:8px 15px;}
+  .home-hint{font-size:11px; margin-top:18px; line-height:1.9;}
+
+  /* 季节页标题 */
+  .shead{padding:12px 14px 2px; gap:10px;}
+  .shead .btn{font-size:12px; padding:6px 11px;}
+  .shead .season-char{font-size:46px;}
+  .shead h2{font-size:19px;}
+  .shead .s-motto{font-size:11px; line-height:1.6;}
+  .s-counts{gap:5px;}
+  .s-counts i{font-size:10.5px; padding:2px 9px;}
+
+  /* 季节瓦片：去掉固定高宽比，让文字完整显示 */
+  .stage-ring{grid-template-columns:repeat(2,1fr); gap:10px; padding:6px 0 16px;}
+  .stage-ring .tile{aspect-ratio:auto;}
+  .stage-ring .tile-seal{display:none;}
+  .tile .t-title{font-size:13.5px;}
+  .tile .t-sub{font-size:11px;}
+  .tile .t-motif{font-size:32px;}
+
+  /* 节气详情页 */
+  .t-topbar{padding:10px 10px 2px; gap:6px; flex-wrap:wrap;}
+  .t-topbar .btn{font-size:12px; padding:6px 11px;}
+  .t-topbar .sp{display:none;}
+  .t-count{font-size:10.5px; width:100%; margin-left:2px;}
+  .t-body-wrap{padding:8px 14px 16px;}
+  .t-ring{display:none;}
+  .t-head{gap:12px;}
+  .t-seal-big{width:60px; height:60px; font-size:20px;}
+  .t-kicker{font-size:10.5px; line-height:1.5;}
+  .t-title{font-size:22px; line-height:1.3;}
+  .t-title .quest{font-size:10px; padding:1px 7px;}
+  .t-title .status{font-size:10px; padding:1px 7px;}
+  .t-sub{font-size:12px;}
+  .t-poem{padding:11px 11px 11px 15px; margin-top:14px;}
+  .t-poem .line{font-size:15.5px; line-height:1.7;}
+  .t-poem .src{font-size:11px;}
+  .hou-line{font-size:11px;}
+  .poem-seal{font-size:11px; padding:4px 7px; right:10px; bottom:9px;}
+  .block{margin-top:14px;}
+  .block .bt{font-size:13px;}
+  ul.dots li{font-size:14px; padding-left:17px;}
+  .kv span{font-size:13px; padding:4px 12px;}
+  .cert-grid{grid-template-columns:repeat(2,1fr); gap:10px;}
+  .cert-name{font-size:12px;}
+
+  /* 底部翻页 */
+  .t-nav{padding:6px 4px 10px; gap:4px;}
+  .t-nav .btn{font-size:11px; padding:7px 8px; white-space:nowrap;}
+  .ydots{gap:2px;}
+  .yd{width:5px; height:5px;}
+  .yd.yd-on{width:11px; height:11px; outline-width:1px;}
+
+  /* 总览地图 */
+  .map-grid{gap:14px;}
+  .map-col h3{font-size:16px;}
+  .mterm{padding:7px 10px;}
+
+  .site-fab{bottom:12px; right:12px; font-size:12px; padding:7px 12px;}
+}
+
 /* ---------- 返回网站首页悬浮按钮 ---------- */
 .site-fab{
   position:fixed; bottom:20px; right:20px; z-index:99;
